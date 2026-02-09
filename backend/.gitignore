@@ -1,0 +1,35 @@
+/node_modules
+/dist
+/build
+/coverage
+/logs
+/temp
+
+node_modules
+build
+npm-debug.log
+.env
+.DS_Store
+
+/node_modules
+/dist
+/build
+/coverage
+/logs
+/temp
+
+node_modules
+dist
+build
+coverage
+logs
+temp
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+*.zip
+*.tar.gz
+*.log
+# *.sql

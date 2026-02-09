@@ -1,0 +1,1494 @@
+"use client";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import useApi from "@/hooks/useApi";
+import {
+    Shield, MapPin, Users, Calendar, FileText, Settings,
+    CheckCircle, AlertTriangle, ChevronRight, ChevronLeft, Save, X
+} from "lucide-react";
+import StaffManagement from "./StaffManagement";
+
+export default function EditBandobastForm({ bandobastId }) {
+    const router = useRouter();
+    const { callApi, loading: apiLoading } = useApi();
+    const [loading, setLoading] = useState(true);
+    const [currentStep, setCurrentStep] = useState(0);
+    const [showStaffModal, setShowStaffModal] = useState(false);
+    const [staffList, setStaffList] = useState([]);
+    const [points, setPoints] = useState([]);
+    const [activeStaffTab, setActiveStaffTab] = useState('all');
+    const [masterDataLoading, setMasterDataLoading] = useState(true);
+    const [masterData, setMasterData] = useState({
+        bandobastTypes: [],
+        priorityLevels: [],
+        vipCategories: [],
+        threatLevels: [],
+        approvingAuthorities: []
+    });
+
+    const [formData, setFormData] = useState({
+        // Basic Info
+        bandobastName: "",
+        bandobastType: "",
+        priorityLevel: "",
+        eventDate: "",
+        eventStartTime: "",
+        eventEndTime: "",
+        // Location
+        location: "",
+        district: "",
+        taluka: "",
+        village: "",
+        landmark: "",
+        // Event/VIP Details
+        eventName: "",
+        eventDescription: "",
+        vipName: "",
+        vipCategory: "",
+        expectedCrowd: "",
+        threatLevel: "",
+        // Manpower
+        totalOfficers: "",
+        totalConstables: "",
+        totalSectors: "",
+        totalPoints: "",
+        totalAreas: "",
+        // Officer Assignment
+        assignmentMode: "",
+        reportingOfficer: "",
+        backupOfficer: "",
+        replacementAllowed: false,
+        // Approval
+        approvingAuthority: "",
+        remarks: "",
+        // Instructions
+        generalInstructions: "",
+        pointwiseInstructions: "",
+        emergencyProtocol: "",
+        uniformType: "",
+        // Communication
+        groupChatEnabled: false,
+        emergencyBroadcast: false,
+        language: "",
+        // Monitoring
+        liveLocationTracking: false,
+        geoFencingEnabled: false,
+        locationUpdateInterval: "",
+        attendanceMode: "",
+        // Post-Event
+        autoReportGeneration: false,
+        incidentLogging: false,
+        photoVideoUpload: false,
+        feedbackRequired: false
+    });
+
+    const steps = [
+        { id: 0, title: "Basic Info", icon: FileText },
+        { id: 1, title: "Location", icon: MapPin },
+        { id: 4, title: "Event/VIP", icon: Users },
+        { id: 2, title: "Manpower", icon: Users },
+        { id: 9, title: "Points", icon: MapPin },
+        { id: 3, title: "Officers", icon: Shield },
+        { id: 5, title: "Approval", icon: CheckCircle },
+        { id: 6, title: "Instructions", icon: FileText },
+        { id: 7, title: "Communication", icon: Settings },
+        { id: 8, title: "Monitoring", icon: AlertTriangle }
+    ];
+
+    useEffect(() => {
+        fetchMasterData();
+        fetchBandobastData();
+    }, [bandobastId]);
+
+    const fetchMasterData = async () => {
+        try {
+            const [types, priorities, vipCats, threats, authorities] = await Promise.all([
+                callApi("GET", "/master-data/bandobast-types"),
+                callApi("GET", "/master-data/priority-levels"),
+                callApi("GET", "/master-data/vip-categories"),
+                callApi("GET", "/master-data/threat-levels"),
+                callApi("GET", "/master-data/approving-authorities")
+            ]);
+            setMasterData({
+                bandobastTypes: types?.data || [],
+                priorityLevels: priorities?.data || [],
+                vipCategories: vipCats?.data || [],
+                threatLevels: threats?.data || [],
+                approvingAuthorities: authorities?.data || []
+            });
+        } catch (error) {
+            console.error("Error fetching master data:", error);
+        } finally {
+            setMasterDataLoading(false);
+        }
+    };
+
+    const fetchBandobastData = async () => {
+        try {
+            console.log("Fetching bandobast with ID:", bandobastId);
+            const response = await callApi("GET", `/bandobasts/${bandobastId}`);
+            console.log("API Response:", response);
+            const data = response?.data;
+
+            if (!data) {
+                console.error("No data received from API");
+                setLoading(false);
+                return;
+            }
+
+            console.log("Bandobast data received:", data);
+
+            setFormData({
+                bandobastName: data.bandobast_name || "",
+                bandobastType: data.bandobast_type_id ? String(data.bandobast_type_id) : "",
+                priorityLevel: data.priority_id ? String(data.priority_id) : "",
+                eventDate: data.start_date || "",
+                eventStartTime: data.start_time || "",
+                eventEndTime: data.end_time || "",
+                location: data.control_room_location || "",
+                district: data.district || "",
+                taluka: data.city_taluka || "",
+                village: "",
+                landmark: "",
+                eventName: data.vip_event_name || "",
+                eventDescription: data.event_description || "",
+                vipName: "",
+                vipCategory: data.vip_category_id ? String(data.vip_category_id) : "",
+                expectedCrowd: data.expected_crowd || "",
+                threatLevel: data.threat_level_id ? String(data.threat_level_id) : "",
+                totalOfficers: data.pi_count || "",
+                totalConstables: data.constable_count || "",
+                totalSectors: "",
+                totalPoints: data.total_points || "",
+                totalAreas: data.total_areas || "",
+                assignmentMode: data.assignment_mode || "",
+                reportingOfficer: data.reporting_officer || "",
+                backupOfficer: data.backup_officer || "",
+                replacementAllowed: data.replacement_allowed || false,
+                approvingAuthority: data.approving_authority_id ? String(data.approving_authority_id) : "",
+                remarks: data.remarks || "",
+                generalInstructions: data.general_instructions || "",
+                pointwiseInstructions: data.pointwise_instructions || "",
+                emergencyProtocol: data.emergency_protocol || "",
+                uniformType: data.uniform_type || "",
+                groupChatEnabled: data.group_chat_enabled || false,
+                emergencyBroadcast: data.emergency_broadcast || false,
+                language: data.language || "",
+                liveLocationTracking: data.live_location_tracking || false,
+                geoFencingEnabled: data.geo_fencing_enabled || false,
+                locationUpdateInterval: data.location_update_interval || "",
+                attendanceMode: data.attendance_mode || "",
+                autoReportGeneration: data.auto_report_generation || false,
+                incidentLogging: data.incident_logging || false,
+                photoVideoUpload: data.photo_video_upload || false,
+                feedbackRequired: data.feedback_required || false
+            });
+
+            setStaffList(data.staff?.map(s => ({
+                id: s.id,
+                name: s.name,
+                mobileNumber: s.mobile_number,
+                buckleNumber: s.buckle_number,
+                designation: s.designation,
+                dutyLocation: s.duty_location
+            })) || []);
+
+            // Set points data
+            setPoints(data.points?.map(point => ({
+                id: point.id,
+                pointName: point.point_name,
+                location: point.location,
+                latitude: point.latitude,
+                longitude: point.longitude,
+                officersRequired: point.officers_required,
+                assignedOfficers: point.assignedOfficers?.map(officer => ({
+                    id: officer.id,
+                    staffId: officer.staff_id,
+                    name: officer.name,
+                    mobileNumber: officer.mobile_number,
+                    buckleNumber: officer.buckle_number,
+                    designation: officer.designation,
+                    dutyLocation: officer.duty_location
+                })) || []
+            })) || []);
+        } catch (error) {
+            console.error("Error fetching bandobast:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleInputChange = (field, value) => {
+        setFormData(prev => ({ ...prev, [field]: value }));
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        const payload = {
+            bandobast_name: formData.bandobastName,
+            bandobast_type_id: formData.bandobastType,
+            priority_level_id: formData.priorityLevel,
+            event_date: formData.eventDate,
+            event_start_time: formData.eventStartTime,
+            event_end_time: formData.eventEndTime,
+            location: formData.location,
+            district: formData.district,
+            taluka: formData.taluka,
+            village: formData.village,
+            landmark: formData.landmark,
+            state_id: null,
+            city_id: null,
+            event_name: formData.eventName,
+            event_description: formData.eventDescription,
+            vip_name: formData.vipName,
+            vip_category_id: formData.vipCategory,
+            expected_crowd: formData.expectedCrowd,
+            threat_level_id: formData.threatLevel,
+            total_officers: formData.totalOfficers,
+            total_constables: formData.totalConstables,
+            total_sectors: formData.totalSectors,
+            total_points: formData.totalPoints,
+            total_areas: formData.totalAreas,
+            assignment_mode: formData.assignmentMode,
+            reporting_officer: formData.reportingOfficer,
+            backup_officer: formData.backupOfficer,
+            replacement_allowed: formData.replacementAllowed,
+            approving_authority_id: formData.approvingAuthority,
+            remarks: formData.remarks,
+            general_instructions: formData.generalInstructions,
+            pointwise_instructions: formData.pointwiseInstructions,
+            emergency_protocol: formData.emergencyProtocol,
+            uniform_type: formData.uniformType,
+            group_chat_enabled: formData.groupChatEnabled,
+            emergency_broadcast: formData.emergencyBroadcast,
+            language: formData.language,
+            live_location_tracking: formData.liveLocationTracking,
+            geo_fencing_enabled: formData.geoFencingEnabled,
+            location_update_interval: formData.locationUpdateInterval,
+            attendance_mode: formData.attendanceMode,
+            auto_report_generation: formData.autoReportGeneration,
+            incident_logging: formData.incidentLogging,
+            photo_video_upload: formData.photoVideoUpload,
+            feedback_required: formData.feedbackRequired,
+            staff: staffList.map(s => ({
+                name: s.name,
+                mobile_number: s.mobileNumber,
+                buckle_number: s.buckleNumber,
+                designation: s.designation,
+                duty_location: s.dutyLocation
+            })),
+            points: points.map(p => ({
+                pointName: p.pointName,
+                location: p.location,
+                latitude: p.latitude,
+                longitude: p.longitude,
+                officersRequired: p.officersRequired,
+                assignedOfficers: p.assignedOfficers?.map(o => ({
+                    staffId: o.staffId,
+                    name: o.name,
+                    mobileNumber: o.mobileNumber,
+                    buckleNumber: o.buckleNumber,
+                    designation: o.designation,
+                    dutyLocation: o.dutyLocation
+                })) || []
+            }))
+        };
+
+        try {
+            await callApi("PUT", `/bandobasts/${bandobastId}`, payload);
+            router.push("/my-admin/bandobasts");
+        } catch (error) {
+            console.error("Error updating bandobast:", error);
+        }
+    };
+
+    const handleNext = () => {
+        if (currentStep < steps.length - 1) setCurrentStep(currentStep + 1);
+    };
+
+    const handlePrevious = () => {
+        if (currentStep > 0) setCurrentStep(currentStep - 1);
+    };
+
+    // Sync points with totalPoints
+    useEffect(() => {
+        const totalPointsNum = parseInt(formData.totalPoints) || 0;
+        if (totalPointsNum > points.length) {
+            // Add new points
+            const newPoints = [...points];
+            for (let i = points.length; i < totalPointsNum; i++) {
+                newPoints.push({
+                    id: Date.now() + i,
+                    pointName: "",
+                    location: "",
+                    latitude: "",
+                    longitude: "",
+                    officersRequired: 0,
+                    assignedOfficers: []
+                });
+            }
+            setPoints(newPoints);
+        } else if (totalPointsNum < points.length && totalPointsNum >= 0 && points[points.length - 1]?.pointName === "") {
+            if (points.length > totalPointsNum) {
+                setPoints(points.slice(0, totalPointsNum));
+            }
+        }
+    }, [formData.totalPoints]);
+
+    // Point management functions
+    const handlePointChange = (pointIndex, field, value) => {
+        const updatedPoints = [...points];
+        updatedPoints[pointIndex][field] = value;
+
+        // If officersRequired changed, update assignedOfficers array
+        if (field === 'officersRequired') {
+            const officersNum = parseInt(value) || 0;
+            const currentOfficers = updatedPoints[pointIndex].assignedOfficers || [];
+
+            if (officersNum > currentOfficers.length) {
+                // Add new officer slots
+                for (let i = currentOfficers.length; i < officersNum; i++) {
+                    currentOfficers.push({
+                        id: Date.now() + i,
+                        staffId: "",
+                        name: "",
+                        mobileNumber: "",
+                        buckleNumber: "",
+                        designation: "",
+                        dutyLocation: ""
+                    });
+                }
+            } else if (officersNum < currentOfficers.length) {
+                // Remove excess officer slots
+                currentOfficers.splice(officersNum);
+            }
+
+            updatedPoints[pointIndex].assignedOfficers = currentOfficers;
+        }
+
+        setPoints(updatedPoints);
+    };
+
+    const handleOfficerChange = (pointIndex, officerIndex, field, value) => {
+        const updatedPoints = [...points];
+
+        if (field === 'staffId') {
+            // Find selected staff and auto-fill details
+            const selectedStaff = staffList.find(s => s.name === value);
+            if (selectedStaff) {
+                updatedPoints[pointIndex].assignedOfficers[officerIndex] = {
+                    ...updatedPoints[pointIndex].assignedOfficers[officerIndex],
+                    staffId: value,
+                    name: selectedStaff.name,
+                    mobileNumber: selectedStaff.mobileNumber,
+                    buckleNumber: selectedStaff.buckleNumber,
+                    designation: selectedStaff.designation,
+                    dutyLocation: selectedStaff.dutyLocation
+                };
+            }
+        } else {
+            updatedPoints[pointIndex].assignedOfficers[officerIndex][field] = value;
+        }
+
+        setPoints(updatedPoints);
+    };
+
+    // Get available staff (excluding already assigned ones)
+    const getAvailableStaff = (currentPointIndex, currentOfficerIndex) => {
+        const assignedStaffIds = new Set();
+
+        points.forEach((point, pointIndex) => {
+            point.assignedOfficers?.forEach((officer, officerIndex) => {
+                // Skip the current officer slot
+                if (pointIndex === currentPointIndex && officerIndex === currentOfficerIndex) {
+                    return;
+                }
+                if (officer.staffId) {
+                    assignedStaffIds.add(officer.staffId);
+                }
+            });
+        });
+
+        // Filter out assigned staff
+        return staffList.filter(staff => !assignedStaffIds.has(staff.name));
+    };
+
+    // Calculate reserve staff (staff not assigned to any point)
+    const getReserveStaff = () => {
+        const assignedStaffNames = new Set();
+
+        points.forEach(point => {
+            point.assignedOfficers?.forEach(officer => {
+                if (officer.name) {
+                    assignedStaffNames.add(officer.name);
+                }
+            });
+        });
+
+        return staffList.filter(staff => !assignedStaffNames.has(staff.name));
+    };
+
+    const renderStepContent = () => {
+        switch (currentStep) {
+            case 0:
+                return (
+                    <div className="space-y-6">
+                        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Basic Information</h3>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                    Bandobast Name <span className="text-red-500">*</span>
+                                </label>
+                                <input
+                                    type="text"
+                                    value={formData.bandobastName}
+                                    onChange={(e) => handleInputChange("bandobastName", e.target.value)}
+                                    className="w-full px-4 py-2 rounded-lg border-2 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                    Bandobast Type <span className="text-red-500">*</span>
+                                </label>
+                                <select
+                                    value={formData.bandobastType}
+                                    onChange={(e) => handleInputChange("bandobastType", e.target.value)}
+                                    className="w-full px-4 py-2 rounded-lg border-2 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    required
+                                >
+                                    <option value="">Select Type</option>
+                                    {masterData.bandobastTypes.map((type) => (
+                                        <option key={type.id} value={type.id}>{type.name}</option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                    Priority Level <span className="text-red-500">*</span>
+                                </label>
+                                <select
+                                    value={formData.priorityLevel}
+                                    onChange={(e) => handleInputChange("priorityLevel", e.target.value)}
+                                    className="w-full px-4 py-2 rounded-lg border-2 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    required
+                                >
+                                    <option value="">Select Priority</option>
+                                    {masterData.priorityLevels.map((level) => (
+                                        <option key={level.id} value={level.id}>{level.name}</option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                    Event Date <span className="text-red-500">*</span>
+                                </label>
+                                <input
+                                    type="date"
+                                    value={formData.eventDate}
+                                    onChange={(e) => handleInputChange("eventDate", e.target.value)}
+                                    className="w-full px-4 py-2 rounded-lg border-2 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Start Time</label>
+                                <input
+                                    type="time"
+                                    value={formData.eventStartTime}
+                                    onChange={(e) => handleInputChange("eventStartTime", e.target.value)}
+                                    className="w-full px-4 py-2 rounded-lg border-2 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">End Time</label>
+                                <input
+                                    type="time"
+                                    value={formData.eventEndTime}
+                                    onChange={(e) => handleInputChange("eventEndTime", e.target.value)}
+                                    className="w-full px-4 py-2 rounded-lg border-2 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                );
+
+            case 1:
+                return (
+                    <div className="space-y-6">
+                        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Location Details</h3>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div className="md:col-span-2">
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Location</label>
+                                <input
+                                    type="text"
+                                    value={formData.location}
+                                    onChange={(e) => handleInputChange("location", e.target.value)}
+                                    className="w-full px-4 py-2 rounded-lg border-2 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">District</label>
+                                <input
+                                    type="text"
+                                    value={formData.district}
+                                    onChange={(e) => handleInputChange("district", e.target.value)}
+                                    className="w-full px-4 py-2 rounded-lg border-2 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Taluka</label>
+                                <input
+                                    type="text"
+                                    value={formData.taluka}
+                                    onChange={(e) => handleInputChange("taluka", e.target.value)}
+                                    className="w-full px-4 py-2 rounded-lg border-2 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Village</label>
+                                <input
+                                    type="text"
+                                    value={formData.village}
+                                    onChange={(e) => handleInputChange("village", e.target.value)}
+                                    className="w-full px-4 py-2 rounded-lg border-2 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Landmark</label>
+                                <input
+                                    type="text"
+                                    value={formData.landmark}
+                                    onChange={(e) => handleInputChange("landmark", e.target.value)}
+                                    className="w-full px-4 py-2 rounded-lg border-2 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                );
+
+            case 2:
+                return (
+                    <div className="space-y-6">
+                        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Event & VIP Details</h3>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div className="md:col-span-2">
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Event Name</label>
+                                <input
+                                    type="text"
+                                    value={formData.eventName}
+                                    onChange={(e) => handleInputChange("eventName", e.target.value)}
+                                    className="w-full px-4 py-2 rounded-lg border-2 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                />
+                            </div>
+                            <div className="md:col-span-2">
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Event Description</label>
+                                <textarea
+                                    value={formData.eventDescription}
+                                    onChange={(e) => handleInputChange("eventDescription", e.target.value)}
+                                    rows={3}
+                                    className="w-full px-4 py-2 rounded-lg border-2 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">VIP Name</label>
+                                <input
+                                    type="text"
+                                    value={formData.vipName}
+                                    onChange={(e) => handleInputChange("vipName", e.target.value)}
+                                    className="w-full px-4 py-2 rounded-lg border-2 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">VIP Category</label>
+                                <select
+                                    value={formData.vipCategory}
+                                    onChange={(e) => handleInputChange("vipCategory", e.target.value)}
+                                    className="w-full px-4 py-2 rounded-lg border-2 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                >
+                                    <option value="">Select Category</option>
+                                    {masterData.vipCategories.map((cat) => (
+                                        <option key={cat.id} value={cat.id}>{cat.name}</option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Expected Crowd</label>
+                                <input
+                                    type="number"
+                                    value={formData.expectedCrowd}
+                                    onChange={(e) => handleInputChange("expectedCrowd", e.target.value)}
+                                    className="w-full px-4 py-2 rounded-lg border-2 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Threat Level</label>
+                                <select
+                                    value={formData.threatLevel}
+                                    onChange={(e) => handleInputChange("threatLevel", e.target.value)}
+                                    className="w-full px-4 py-2 rounded-lg border-2 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                >
+                                    <option value="">Select Threat Level</option>
+                                    {masterData.threatLevels.map((level) => (
+                                        <option key={level.id} value={level.id}>{level.name}</option>
+                                    ))}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                );
+
+            case 3:
+                return (
+                    <div className="space-y-6">
+                        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Manpower Requirements</h3>
+
+                        {/* Compact Manpower Fields */}
+                        <div className="grid grid-cols-5 gap-3">
+                            <div>
+                                <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Total Officers</label>
+                                <input
+                                    type="number"
+                                    value={formData.totalOfficers}
+                                    onChange={(e) => handleInputChange("totalOfficers", e.target.value)}
+                                    className="w-full px-2 py-1.5 rounded border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Total Constables</label>
+                                <input
+                                    type="number"
+                                    value={formData.totalConstables}
+                                    onChange={(e) => handleInputChange("totalConstables", e.target.value)}
+                                    className="w-full px-2 py-1.5 rounded border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Total Sectors</label>
+                                <input
+                                    type="number"
+                                    value={formData.totalSectors}
+                                    onChange={(e) => handleInputChange("totalSectors", e.target.value)}
+                                    className="w-full px-2 py-1.5 rounded border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Total Points</label>
+                                <input
+                                    type="number"
+                                    value={formData.totalPoints}
+                                    onChange={(e) => handleInputChange("totalPoints", e.target.value)}
+                                    className="w-full px-2 py-1.5 rounded border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Total Areas</label>
+                                <input
+                                    type="number"
+                                    value={formData.totalAreas}
+                                    onChange={(e) => handleInputChange("totalAreas", e.target.value)}
+                                    className="w-full px-2 py-1.5 rounded border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm"
+                                />
+                            </div>
+                        </div>
+
+                        {/* Staff Tabs */}
+                        <div className="mt-6 border-t pt-6 border-gray-200 dark:border-gray-700">
+                            <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Assigned Staff</h4>
+
+                            {/* Tab Headers */}
+                            <div className="flex gap-1 border-b border-gray-200 dark:border-gray-700 mb-4">
+                                <button
+                                    onClick={() => setActiveStaffTab('all')}
+                                    className={`px-4 py-2 text-sm font-medium rounded-t-lg transition-colors ${activeStaffTab === 'all'
+                                        ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 border-b-2 border-blue-500'
+                                        : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'
+                                        }`}
+                                >
+                                    All Staff ({staffList.length})
+                                </button>
+                                <button
+                                    onClick={() => setActiveStaffTab('pointwise')}
+                                    className={`px-4 py-2 text-sm font-medium rounded-t-lg transition-colors ${activeStaffTab === 'pointwise'
+                                        ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 border-b-2 border-blue-500'
+                                        : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'
+                                        }`}
+                                >
+                                    Point-wise Staff
+                                </button>
+                                <button
+                                    onClick={() => setActiveStaffTab('reserve')}
+                                    className={`px-4 py-2 text-sm font-medium rounded-t-lg transition-colors ${activeStaffTab === 'reserve'
+                                        ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 border-b-2 border-blue-500'
+                                        : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'
+                                        }`}
+                                >
+                                    Reserve Staff ({getReserveStaff().length})
+                                </button>
+                            </div>
+
+                            {/* Tab Content */}
+                            <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
+                                {activeStaffTab === 'all' && (
+                                    <div className="overflow-x-auto">
+                                        <table className="w-full text-xs text-left">
+                                            <thead className="bg-gray-50 dark:bg-gray-700 text-gray-500 dark:text-gray-400 border-b border-gray-200 dark:border-gray-600">
+                                                <tr>
+                                                    <th className="px-4 py-3 font-medium text-xs">#</th>
+                                                    <th className="px-4 py-3 font-medium text-xs">Name</th>
+                                                    <th className="px-4 py-3 font-medium text-xs">Mobile</th>
+                                                    <th className="px-4 py-3 font-medium text-xs">Buckle No.</th>
+                                                    <th className="px-4 py-3 font-medium text-xs">Designation</th>
+                                                    <th className="px-4 py-3 font-medium text-xs">Duty Location</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+                                                {staffList.length > 0 ? (
+                                                    staffList.map((staff, idx) => (
+                                                        <tr key={idx} className="hover:bg-gray-50 dark:hover:bg-gray-700/50">
+                                                            <td className="px-4 py-2">{idx + 1}</td>
+                                                            <td className="px-4 py-2 font-medium">{staff.name}</td>
+                                                            <td className="px-4 py-2">{staff.mobileNumber}</td>
+                                                            <td className="px-4 py-2">{staff.buckleNumber}</td>
+                                                            <td className="px-4 py-2">{staff.designation}</td>
+                                                            <td className="px-4 py-2">{staff.dutyLocation}</td>
+                                                        </tr>
+                                                    ))
+                                                ) : (
+                                                    <tr>
+                                                        <td colSpan="6" className="px-4 py-8 text-center text-gray-500 dark:text-gray-400">
+                                                            No staff assigned
+                                                        </td>
+                                                    </tr>
+                                                )}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                )}
+
+                                {activeStaffTab === 'pointwise' && (
+                                    <div className="p-4 space-y-4">
+                                        {points.length > 0 ? (
+                                            points.map((point, idx) => (
+                                                <div key={idx} className="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+                                                    <div className="bg-gray-50 dark:bg-gray-700 px-4 py-2 border-b border-gray-200 dark:border-gray-600 flex justify-between items-center">
+                                                        <div>
+                                                            <span className="font-semibold text-sm text-gray-900 dark:text-white">Point {idx + 1}: {point.pointName}</span>
+                                                            <span className="text-xs text-gray-500 dark:text-gray-400 ml-2">({point.location})</span>
+                                                        </div>
+                                                        <span className="text-xs font-medium px-2 py-0.5 rounded bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300">
+                                                            {point.assignedOfficers?.length || 0} assigned
+                                                        </span>
+                                                    </div>
+                                                    {point.assignedOfficers && point.assignedOfficers.length > 0 ? (
+                                                        <div className="overflow-x-auto">
+                                                            <table className="w-full text-xs text-left">
+                                                                <thead className="bg-gray-50/50 dark:bg-gray-800/50 text-gray-500 dark:text-gray-400 border-b border-gray-200 dark:border-gray-700">
+                                                                    <tr>
+                                                                        <th className="px-4 py-2 font-medium">Name</th>
+                                                                        <th className="px-4 py-2 font-medium">Mobile</th>
+                                                                        <th className="px-4 py-2 font-medium">Buckle No.</th>
+                                                                        <th className="px-4 py-2 font-medium">Designation</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
+                                                                    {point.assignedOfficers.map((officer, officerIdx) => officer.name && (
+                                                                        <tr key={officerIdx}>
+                                                                            <td className="px-4 py-2 font-medium">{officer.name}</td>
+                                                                            <td className="px-4 py-2">{officer.mobileNumber}</td>
+                                                                            <td className="px-4 py-2">{officer.buckleNumber}</td>
+                                                                            <td className="px-4 py-2">{officer.designation}</td>
+                                                                        </tr>
+                                                                    ))}
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    ) : (
+                                                        <div className="px-4 py-3 text-xs text-gray-500 text-center">No officers assigned to this point</div>
+                                                    )}
+                                                </div>
+                                            ))
+                                        ) : (
+                                            <div className="text-center text-gray-500">No points available</div>
+                                        )}
+                                    </div>
+                                )}
+
+                                {activeStaffTab === 'reserve' && (
+                                    <div className="overflow-x-auto">
+                                        <table className="w-full text-xs text-left">
+                                            <thead className="bg-gray-50 dark:bg-gray-700 text-gray-500 dark:text-gray-400 border-b border-gray-200 dark:border-gray-600">
+                                                <tr>
+                                                    <th className="px-4 py-3 font-medium text-xs">#</th>
+                                                    <th className="px-4 py-3 font-medium text-xs">Name</th>
+                                                    <th className="px-4 py-3 font-medium text-xs">Mobile</th>
+                                                    <th className="px-4 py-3 font-medium text-xs">Buckle No.</th>
+                                                    <th className="px-4 py-3 font-medium text-xs">Designation</th>
+                                                    <th className="px-4 py-3 font-medium text-xs">Duty Location</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+                                                {getReserveStaff().length > 0 ? (
+                                                    getReserveStaff().map((staff, idx) => (
+                                                        <tr key={idx} className="hover:bg-gray-50 dark:hover:bg-gray-700/50">
+                                                            <td className="px-4 py-2">{idx + 1}</td>
+                                                            <td className="px-4 py-2 font-medium">{staff.name}</td>
+                                                            <td className="px-4 py-2">{staff.mobileNumber}</td>
+                                                            <td className="px-4 py-2">{staff.buckleNumber}</td>
+                                                            <td className="px-4 py-2">{staff.designation}</td>
+                                                            <td className="px-4 py-2">{staff.dutyLocation}</td>
+                                                        </tr>
+                                                    ))
+                                                ) : (
+                                                    <tr>
+                                                        <td colSpan="6" className="px-4 py-8 text-center text-gray-500 dark:text-gray-400">
+                                                            No reserve staff (all staff assigned to points)
+                                                        </td>
+                                                    </tr>
+                                                )}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+
+                        {/* Hidden button to keep layout stability if needed, or just removed */}
+                        <div className="hidden">
+                            <button
+                                type="button"
+                                onClick={() => setShowStaffModal(true)}
+                                className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-all"
+                            >
+                                Manage Staff
+                            </button>
+                        </div>
+                    </div>
+                );
+
+            case 4:
+                return (
+                    <div className="space-y-6">
+                        <div className="flex justify-between items-center mb-4">
+                            <h3 className="text-xl font-bold text-gray-900 dark:text-white">Point Management</h3>
+                            <div className="text-sm text-gray-500 dark:text-gray-400">
+                                Total Points: {points.length}
+                            </div>
+                        </div>
+
+                        {points.map((point, pointIndex) => (
+                            <div key={point.id} className="bg-gray-50 dark:bg-gray-700/50 p-4 rounded-xl border border-gray-200 dark:border-gray-600 mb-6">
+                                <h4 className="text-lg font-semibold text-gray-800 dark:text-white mb-4 flex items-center justify-between">
+                                    <div className="flex items-center gap-2">
+                                        <MapPin className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+                                        Point {pointIndex + 1}
+                                    </div>
+                                </h4>
+
+                                {/* Point Details */}
+                                <div className="grid grid-cols-5 gap-3 mb-4">
+                                    <div>
+                                        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                                            Point Name <span className="text-red-500">*</span>
+                                        </label>
+                                        <input
+                                            type="text"
+                                            value={point.pointName}
+                                            onChange={(e) => handlePointChange(pointIndex, 'pointName', e.target.value)}
+                                            className="w-full px-4 py-2 rounded-lg border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                                            placeholder="e.g., Main Gate"
+                                            required
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                                            Location <span className="text-red-500">*</span>
+                                        </label>
+                                        <input
+                                            type="text"
+                                            value={point.location}
+                                            onChange={(e) => handlePointChange(pointIndex, 'location', e.target.value)}
+                                            className="w-full px-4 py-2 rounded-lg border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                                            placeholder="e.g., Stadium Entrance"
+                                            required
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                                            Officers Required <span className="text-red-500">*</span>
+                                        </label>
+                                        <input
+                                            type="number"
+                                            value={point.officersRequired}
+                                            onChange={(e) => handlePointChange(pointIndex, 'officersRequired', e.target.value)}
+                                            className="w-full px-4 py-2 rounded-lg border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                                            placeholder="0"
+                                            min="0"
+                                            required
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                                            Latitude
+                                        </label>
+                                        <input
+                                            type="text"
+                                            value={point.latitude}
+                                            onChange={(e) => handlePointChange(pointIndex, 'latitude', e.target.value)}
+                                            className="w-full px-4 py-2 rounded-lg border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                                            placeholder="e.g., 23.0225"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                                            Longitude
+                                        </label>
+                                        <input
+                                            type="text"
+                                            value={point.longitude}
+                                            onChange={(e) => handlePointChange(pointIndex, 'longitude', e.target.value)}
+                                            className="w-full px-4 py-2 rounded-lg border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                                            placeholder="e.g., 72.5714"
+                                        />
+                                    </div>
+                                </div>
+
+                                {/* Officer Assignments */}
+                                {point.assignedOfficers && point.assignedOfficers.length > 0 && (
+                                    <div className="mt-4 pt-4 border-t-2 border-emerald-200 dark:border-emerald-700">
+                                        <h5 className="font-semibold text-sm text-emerald-800 dark:text-emerald-200 mb-3 flex items-center gap-2">
+                                            <Users className="w-4 h-4" />
+                                            Assigned Officers ({point.assignedOfficers.length})
+                                        </h5>
+                                        <div className="space-y-2">
+                                            {point.assignedOfficers.map((officer, officerIndex) => (
+                                                <div
+                                                    key={officer.id}
+                                                    className="bg-white dark:bg-gray-800 p-2 rounded-lg border border-gray-200 dark:border-gray-700"
+                                                >
+                                                    <div className="flex items-center justify-between mb-2">
+                                                        <span className="text-xs font-semibold text-gray-700 dark:text-gray-300">
+                                                            Officer #{officerIndex + 1}
+                                                        </span>
+                                                    </div>
+                                                    <div className="grid grid-cols-6 gap-2">
+                                                        <div>
+                                                            <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">
+                                                                Select Staff <span className="text-red-500">*</span>
+                                                            </label>
+                                                            <select
+                                                                value={officer.staffId}
+                                                                onChange={(e) => handleOfficerChange(pointIndex, officerIndex, 'staffId', e.target.value)}
+                                                                className="w-full px-2 py-1.5 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500 text-xs"
+                                                            >
+                                                                <option value="">Select...</option>
+                                                                {getAvailableStaff(pointIndex, officerIndex).map((staff, idx) => (
+                                                                    <option key={idx} value={staff.name}>
+                                                                        {staff.name} - {staff.designation}
+                                                                    </option>
+                                                                ))}
+                                                            </select>
+                                                        </div>
+                                                        <div>
+                                                            <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">
+                                                                Name
+                                                            </label>
+                                                            <input
+                                                                type="text"
+                                                                value={officer.name}
+                                                                onChange={(e) => handleOfficerChange(pointIndex, officerIndex, 'name', e.target.value)}
+                                                                className="w-full px-2 py-1.5 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500 text-xs"
+                                                                placeholder="Name"
+                                                            />
+                                                        </div>
+                                                        <div>
+                                                            <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">
+                                                                Mobile Number
+                                                            </label>
+                                                            <input
+                                                                type="text"
+                                                                value={officer.mobileNumber}
+                                                                onChange={(e) => handleOfficerChange(pointIndex, officerIndex, 'mobileNumber', e.target.value)}
+                                                                className="w-full px-2 py-1.5 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500 text-xs"
+                                                                placeholder="Mobile"
+                                                            />
+                                                        </div>
+                                                        <div>
+                                                            <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">
+                                                                Buckle Number
+                                                            </label>
+                                                            <input
+                                                                type="text"
+                                                                value={officer.buckleNumber}
+                                                                onChange={(e) => handleOfficerChange(pointIndex, officerIndex, 'buckleNumber', e.target.value)}
+                                                                className="w-full px-2 py-1.5 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500 text-xs"
+                                                                placeholder="Buckle No."
+                                                            />
+                                                        </div>
+                                                        <div>
+                                                            <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">
+                                                                Designation
+                                                            </label>
+                                                            <input
+                                                                type="text"
+                                                                value={officer.designation}
+                                                                onChange={(e) => handleOfficerChange(pointIndex, officerIndex, 'designation', e.target.value)}
+                                                                className="w-full px-2 py-1.5 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500 text-xs"
+                                                                placeholder="Designation"
+                                                            />
+                                                        </div>
+                                                        <div>
+                                                            <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">
+                                                                Duty Location
+                                                            </label>
+                                                            <input
+                                                                type="text"
+                                                                value={officer.dutyLocation}
+                                                                onChange={(e) => handleOfficerChange(pointIndex, officerIndex, 'dutyLocation', e.target.value)}
+                                                                className="w-full px-2 py-1.5 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500 text-xs"
+                                                                placeholder="Duty Location"
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        ))}
+
+                        {points.length === 0 && (
+                            <div className="text-center py-10 bg-gray-50 dark:bg-gray-800 rounded-xl border-2 border-dashed border-gray-300 dark:border-gray-600">
+                                <MapPin className="w-12 h-12 text-gray-400 mx-auto mb-3" />
+                                <h3 className="text-lg font-medium text-gray-900 dark:text-white">No Points Defined</h3>
+                                <p className="text-gray-500 dark:text-gray-400 mt-1">
+                                    Go back to "Manpower" step to increase Total Points count.
+                                </p>
+                            </div>
+                        )}
+                    </div>
+                );
+
+            case 5:
+                return (
+                    <div className="space-y-6">
+                        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Officer Assignment</h3>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Assignment Mode</label>
+                                <select
+                                    value={formData.assignmentMode}
+                                    onChange={(e) => handleInputChange("assignmentMode", e.target.value)}
+                                    className="w-full px-4 py-2 rounded-lg border-2 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                >
+                                    <option value="">Select Mode</option>
+                                    <option value="Auto">Auto</option>
+                                    <option value="Manual">Manual</option>
+                                    <option value="Hybrid">Hybrid</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Reporting Officer</label>
+                                <select
+                                    value={formData.reportingOfficer}
+                                    onChange={(e) => handleInputChange("reportingOfficer", e.target.value)}
+                                    className="w-full px-4 py-2 rounded-lg border-2 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                >
+                                    <option value="">Select Officer</option>
+                                    <option value="PI">Police Inspector (PI)</option>
+                                    <option value="ACP">Assistant Commissioner of Police (ACP)</option>
+                                    <option value="DSP">Deputy Superintendent of Police (DSP)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Backup Officer</label>
+                                <select
+                                    value={formData.backupOfficer}
+                                    onChange={(e) => handleInputChange("backupOfficer", e.target.value)}
+                                    className="w-full px-4 py-2 rounded-lg border-2 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                >
+                                    <option value="">Select Backup Officer (Optional)</option>
+                                    <option value="PI">Police Inspector (PI)</option>
+                                    <option value="ACP">Assistant Commissioner of Police (ACP)</option>
+                                    <option value="DSP">Deputy Superintendent of Police (DSP)</option>
+                                </select>
+                            </div>
+                            <div className="flex items-center">
+                                <label className="flex items-center gap-2">
+                                    <input
+                                        type="checkbox"
+                                        checked={formData.replacementAllowed}
+                                        onChange={(e) => handleInputChange("replacementAllowed", e.target.checked)}
+                                        className="w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                                    />
+                                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Replacement Allowed on Absence</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                );
+
+            case 6:
+                return (
+                    <div className="space-y-6">
+                        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Approval & Post-Event Settings</h3>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                    Approving Authority <span className="text-red-500">*</span>
+                                </label>
+                                <select
+                                    value={formData.approvingAuthority}
+                                    onChange={(e) => handleInputChange("approvingAuthority", e.target.value)}
+                                    className="w-full px-4 py-2 rounded-lg border-2 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    required
+                                >
+                                    <option value="">Select Authority</option>
+                                    {masterData.approvingAuthorities.map((authority) => (
+                                        <option key={authority.id} value={authority.id}>{authority.designation}</option>
+                                    ))}
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Remarks / Comments</label>
+                            <textarea
+                                value={formData.remarks}
+                                onChange={(e) => handleInputChange("remarks", e.target.value)}
+                                rows={4}
+                                className="w-full px-4 py-2 rounded-lg border-2 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            />
+                        </div>
+                        <div className="space-y-4">
+                            <div className="flex items-center">
+                                <label className="flex items-center gap-2">
+                                    <input
+                                        type="checkbox"
+                                        checked={formData.autoReportGeneration}
+                                        onChange={(e) => handleInputChange("autoReportGeneration", e.target.checked)}
+                                        className="w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                                    />
+                                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Enable Auto Report Generation</span>
+                                </label>
+                            </div>
+                            <div className="flex items-center">
+                                <label className="flex items-center gap-2">
+                                    <input
+                                        type="checkbox"
+                                        checked={formData.incidentLogging}
+                                        onChange={(e) => handleInputChange("incidentLogging", e.target.checked)}
+                                        className="w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                                    />
+                                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Enable Incident Logging During Event</span>
+                                </label>
+                            </div>
+                            <div className="flex items-center">
+                                <label className="flex items-center gap-2">
+                                    <input
+                                        type="checkbox"
+                                        checked={formData.photoVideoUpload}
+                                        onChange={(e) => handleInputChange("photoVideoUpload", e.target.checked)}
+                                        className="w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                                    />
+                                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Allow Photo / Video Upload (Evidence)</span>
+                                </label>
+                            </div>
+                            <div className="flex items-center">
+                                <label className="flex items-center gap-2">
+                                    <input
+                                        type="checkbox"
+                                        checked={formData.feedbackRequired}
+                                        onChange={(e) => handleInputChange("feedbackRequired", e.target.checked)}
+                                        className="w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                                    />
+                                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Require Officer Feedback After Event</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                );
+
+            case 7:
+                return (
+                    <div className="space-y-6">
+                        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Duty Instructions & Guidelines</h3>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">General Instructions</label>
+                            <textarea
+                                value={formData.generalInstructions}
+                                onChange={(e) => handleInputChange("generalInstructions", e.target.value)}
+                                rows={4}
+                                className="w-full px-4 py-2 rounded-lg border-2 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Point-wise Instructions</label>
+                            <textarea
+                                value={formData.pointwiseInstructions}
+                                onChange={(e) => handleInputChange("pointwiseInstructions", e.target.value)}
+                                rows={4}
+                                className="w-full px-4 py-2 rounded-lg border-2 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Emergency Protocol</label>
+                            <textarea
+                                value={formData.emergencyProtocol}
+                                onChange={(e) => handleInputChange("emergencyProtocol", e.target.value)}
+                                rows={4}
+                                className="w-full px-4 py-2 rounded-lg border-2 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Uniform Type</label>
+                            <select
+                                value={formData.uniformType}
+                                onChange={(e) => handleInputChange("uniformType", e.target.value)}
+                                className="w-full px-4 py-2 rounded-lg border-2 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            >
+                                <option value="">Select Uniform Type</option>
+                                <option value="Regular">Regular</option>
+                                <option value="Ceremonial">Ceremonial</option>
+                                <option value="Riot Gear">Riot Gear</option>
+                            </select>
+                        </div>
+                    </div>
+                );
+
+            case 8:
+                return (
+                    <div className="space-y-6">
+                        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Communication & Notifications</h3>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div className="flex items-center">
+                                <label className="flex items-center gap-2">
+                                    <input
+                                        type="checkbox"
+                                        checked={formData.groupChatEnabled}
+                                        onChange={(e) => handleInputChange("groupChatEnabled", e.target.checked)}
+                                        className="w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                                    />
+                                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Enable Bandobast Group Chat</span>
+                                </label>
+                            </div>
+                            <div className="flex items-center">
+                                <label className="flex items-center gap-2">
+                                    <input
+                                        type="checkbox"
+                                        checked={formData.emergencyBroadcast}
+                                        onChange={(e) => handleInputChange("emergencyBroadcast", e.target.checked)}
+                                        className="w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                                    />
+                                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Emergency Broadcast (One-click Alert)</span>
+                                </label>
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Language</label>
+                                <select
+                                    value={formData.language}
+                                    onChange={(e) => handleInputChange("language", e.target.value)}
+                                    className="w-full px-4 py-2 rounded-lg border-2 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                >
+                                    <option value="">Select Language</option>
+                                    <option value="Gujarati">Gujarati</option>
+                                    <option value="English">English</option>
+                                    <option value="Both">Both</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                );
+
+            case 9:
+                return (
+                    <div className="space-y-6">
+                        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Monitoring & Tracking Settings</h3>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div className="flex items-center">
+                                <label className="flex items-center gap-2">
+                                    <input
+                                        type="checkbox"
+                                        checked={formData.liveLocationTracking}
+                                        onChange={(e) => handleInputChange("liveLocationTracking", e.target.checked)}
+                                        className="w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                                    />
+                                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Enable Live Location Tracking (GPS)</span>
+                                </label>
+                            </div>
+                            <div className="flex items-center">
+                                <label className="flex items-center gap-2">
+                                    <input
+                                        type="checkbox"
+                                        checked={formData.geoFencingEnabled}
+                                        onChange={(e) => handleInputChange("geoFencingEnabled", e.target.checked)}
+                                        className="w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                                    />
+                                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Enable Geo-Fencing (Point Boundary)</span>
+                                </label>
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Location Update Interval</label>
+                                <select
+                                    value={formData.locationUpdateInterval}
+                                    onChange={(e) => handleInputChange("locationUpdateInterval", e.target.value)}
+                                    className="w-full px-4 py-2 rounded-lg border-2 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    disabled={!formData.liveLocationTracking}
+                                >
+                                    <option value="">Select Interval</option>
+                                    <option value="30sec">30 seconds</option>
+                                    <option value="1min">1 minute</option>
+                                    <option value="5min">5 minutes</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Attendance Mode</label>
+                                <select
+                                    value={formData.attendanceMode}
+                                    onChange={(e) => handleInputChange("attendanceMode", e.target.value)}
+                                    className="w-full px-4 py-2 rounded-lg border-2 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                >
+                                    <option value="">Select Mode</option>
+                                    <option value="Auto GPS">Auto GPS</option>
+                                    <option value="Manual">Manual</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                );
+
+            default:
+                return null;
+        }
+    };
+
+    if (loading || masterDataLoading) {
+        return (
+            <div className="flex items-center justify-center min-h-screen">
+                <div className="text-center">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+                    <p className="text-gray-600 dark:text-gray-400">Loading bandobast data...</p>
+                </div>
+            </div>
+        );
+    }
+
+    return (
+        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 overflow-hidden max-w-full">
+            <div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 px-4 sm:px-6 py-4 sm:py-5 border-b border-gray-200 dark:border-gray-700">
+                <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg flex-shrink-0">
+                        <Shield className="w-6 h-6 text-white" />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                        <h2 className="text-xl sm:text-2xl font-bold text-gray-800 dark:text-white truncate">Edit Bandobast</h2>
+                        <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1 truncate">
+                            Step {currentStep + 1} of {steps.length}: {steps[currentStep].title}
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div className="px-4 sm:px-6 py-3 sm:py-4 bg-gray-50 dark:bg-gray-700/50">
+                <div className="flex items-center justify-between mb-2">
+                    <span className="text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300">Progress</span>
+                    <span className="text-xs sm:text-sm font-medium text-blue-600 dark:text-blue-400">
+                        {Math.round(((currentStep + 1) / steps.length) * 100)}%
+                    </span>
+                </div>
+                <div className="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2">
+                    <div
+                        className="bg-gradient-to-r from-blue-600 to-purple-600 h-2 rounded-full transition-all duration-300"
+                        style={{ width: `${((currentStep + 1) / steps.length) * 100}%` }}
+                    />
+                </div>
+            </div>
+
+            <div className="border-b border-gray-200 dark:border-gray-700 overflow-x-hidden">
+                <div className="px-4 sm:px-6 py-3 overflow-x-auto">
+                    <div className="flex gap-1.5 sm:gap-2 pb-1">
+                        {steps.map((step, index) => {
+                            const StepIcon = step.icon;
+                            const isActive = currentStep === index;
+                            const isCompleted = currentStep > index;
+
+                            return (
+                                <button
+                                    key={step.id}
+                                    onClick={() => setCurrentStep(index)}
+                                    className={`flex items-center gap-1.5 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg font-medium text-xs whitespace-nowrap transition-all flex-shrink-0 ${isActive
+                                        ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg"
+                                        : isCompleted
+                                            ? "bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400"
+                                            : "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400"
+                                        }`}
+                                >
+                                    <StepIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" />
+                                    <span className="hidden lg:inline text-xs">{step.title}</span>
+                                    <span className="lg:hidden">{index + 1}</span>
+                                </button>
+                            );
+                        })}
+                    </div>
+                </div>
+            </div>
+
+            <form onSubmit={handleSubmit}>
+                <div className="p-4 sm:p-6">{renderStepContent()}</div>
+
+                <div className="px-4 sm:px-6 py-4 bg-gray-50 dark:bg-gray-700/50 border-t border-gray-200 dark:border-gray-700 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+                    <button
+                        type="button"
+                        onClick={() => router.push("/my-admin/bandobasts")}
+                        className="px-6 py-2.5 rounded-xl border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-50 dark:hover:bg-gray-700 transition-all flex items-center gap-2"
+                    >
+                        <X className="w-4 h-4" />
+                        Cancel
+                    </button>
+
+                    <div className="flex items-center gap-3">
+                        {currentStep > 0 && (
+                            <button
+                                type="button"
+                                onClick={handlePrevious}
+                                className="px-6 py-2.5 rounded-xl bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-300 dark:hover:bg-gray-500 transition-all flex items-center gap-2"
+                            >
+                                <ChevronLeft className="w-4 h-4" />
+                                Previous
+                            </button>
+                        )}
+
+                        {currentStep < steps.length - 1 ? (
+                            <button
+                                type="button"
+                                onClick={handleNext}
+                                className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium transition-all shadow-lg hover:shadow-xl flex items-center gap-2"
+                            >
+                                Next
+                                <ChevronRight className="w-4 h-4" />
+                            </button>
+                        ) : (
+                            <button
+                                type="submit"
+                                className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-medium transition-all shadow-lg hover:shadow-xl flex items-center gap-2"
+                            >
+                                <Save className="w-4 h-4" />
+                                Update Bandobast
+                            </button>
+                        )}
+                    </div>
+                </div>
+            </form>
+
+            {showStaffModal && (
+                <StaffManagement
+                    onClose={() => setShowStaffModal(false)}
+                    initialStaffList={staffList}
+                    onSave={setStaffList}
+                    bandobastId={bandobastId}
+                />
+            )}
+        </div>
+    );
+}

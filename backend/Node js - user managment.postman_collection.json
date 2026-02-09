@@ -1,0 +1,1012 @@
+{
+	"info": {
+		"_postman_id": "d36add11-b944-4433-bdca-01b0d7319b0b",
+		"name": "Node js - user managment",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "36531995"
+	},
+	"item": [
+		{
+			"name": "Roles",
+			"item": [
+				{
+					"name": "Get All",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Authorization}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/roles",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"roles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Authorization}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"client\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/roles",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"roles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/roles/4",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"roles",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"new client\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/roles/5",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"roles",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Single Role",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Authorization}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/roles/5",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"roles",
+								"5"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Permissions",
+			"item": [
+				{
+					"name": "Get All",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Authorization}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/permissions",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"permissions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"mor@gmail.com\",\r\n    \"password\": \"mor@12345\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Login",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"mor@gmail.com\",\r\n    \"password\": \"mor@123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/login",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "711"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2c7-eAelutRzx+WDAigl1MENrfy32/Q\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 14 Feb 2025 11:59:38 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"user\": {\n        \"id\": 11,\n        \"username\": \"mor@gmail.com\",\n        \"roleId\": 1,\n        \"mobileNumber\": \"8469551552\",\n        \"emailAddress\": \"mor@gmail.com\",\n        \"profilePicture\": null,\n        \"city\": null,\n        \"state\": null,\n        \"country\": null,\n        \"jobPosition\": null,\n        \"address\": null,\n        \"status\": 0,\n        \"createdAt\": \"2025-02-14T11:42:15.000Z\",\n        \"updatedAt\": \"2025-02-14T11:42:15.000Z\"\n    },\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTEsInJvbGUiOjEsImlhdCI6MTczOTUzNDM3OH0.tzahD-yEf0FwxKt5UTKsTbJuelFaibLDmmkNxbcfq9Y\",\n    \"permissions\": [\n        \"create_user\",\n        \"update_user\",\n        \"view_user\",\n        \"delete_user\",\n        \"create_role\",\n        \"update_role\",\n        \"view_role\",\n        \"delete_role\",\n        \"create_permission\",\n        \"update_permission\",\n        \"view_permission\",\n        \"delete_permission\",\n        \"create_template\",\n        \"update_template\",\n        \"view_template\",\n        \"delete_template\"\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"edward norton\",\r\n  \"mobileNumber\": \"7778889999\",\r\n  \"emailAddress\": \"edward.norton@example.com\",\r\n  \"roleId\": \"2\",\r\n  \"country\": \"101\",\r\n  \"state\": \"4030\",\r\n  \"city\": \"57606\",\r\n  \"address\": \"ahmedabad\",\r\n  \"password\": \"mor@12345\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/register",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Get All",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTQsInJvbGUiOjEsImlhdCI6MTczOTk0NzcwMX0.uUEb7k8S-oiSk9Z8LuAX4tPpXtUMNNjEtk8iERrXUfs",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/users?page=1&limit=1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get All",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{Authorization}}",
+										"type": "text"
+									},
+									{
+										"key": "",
+										"value": "",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/users",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Fri, 15 Nov 2024 05:54:34 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"848-IEBv5UMKso5cpiSHFUuQjzEDMvw\""
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "GET, POST, OPTIONS"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,Authorization"
+								},
+								{
+									"key": "Access-Control-Expose-Headers",
+									"value": "Content-Length,Content-Range"
+								},
+								{
+									"key": "cf-cache-status",
+									"value": "DYNAMIC"
+								},
+								{
+									"key": "Report-To",
+									"value": "{\"endpoints\":[{\"url\":\"https:\\/\\/a.nel.cloudflare.com\\/report\\/v4?s=l82QyYqYLY20zdhQdng3IQwLjParVAwzgrKMHSh5jgAPjdxf%2BRSOsNFVWmStG92TIT9%2BBWa2s5L%2FCi9hePrOoezgZwbUpuvK0BxZP615g%2BY1NUGKJvudLYE87JI8zTY%3D\"}],\"group\":\"cf-nel\",\"max_age\":604800}"
+								},
+								{
+									"key": "NEL",
+									"value": "{\"success_fraction\":0,\"report_to\":\"cf-nel\",\"max_age\":604800}"
+								},
+								{
+									"key": "Server",
+									"value": "cloudflare"
+								},
+								{
+									"key": "CF-RAY",
+									"value": "8e2cfcc2cb20e17f-MRS"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "br"
+								},
+								{
+									"key": "alt-svc",
+									"value": "h3=\":443\"; ma=86400"
+								},
+								{
+									"key": "server-timing",
+									"value": "cfL4;desc=\"?proto=TCP&rtt=122948&sent=61&recv=59&lost=0&retrans=0&sent_bytes=4780&recv_bytes=1117&delivery_rate=47536&cwnd=255&unsent_bytes=0&cid=8a17fd4670e48569&ts=59511&x=0\""
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": 2,\n        \"username\": \"mor\",\n        \"password\": \"$2a$08$huZNFgPLkm9k1UzAmiT4JeWGT/v.AvlCCGVtBowQV17ho9MoNn8AK\",\n        \"roleId\": 1,\n        \"mobileNumber\": null,\n        \"emailAddress\": null,\n        \"profilePicture\": null,\n        \"city\": null,\n        \"state\": null,\n        \"country\": null,\n        \"jobPosition\": null,\n        \"address\": null,\n        \"status\": 0,\n        \"createdAt\": \"2024-07-20T07:20:11.000Z\",\n        \"updatedAt\": \"2024-07-20T07:20:11.000Z\"\n    },\n    {\n        \"id\": 3,\n        \"username\": \"naresh\",\n        \"password\": \"$2a$08$XabA2gq0FHfWc062b6ItIuiHlsoD/q/MWdQO.DK/XZJqcc9innADq\",\n        \"roleId\": 2,\n        \"mobileNumber\": null,\n        \"emailAddress\": null,\n        \"profilePicture\": null,\n        \"city\": null,\n        \"state\": null,\n        \"country\": null,\n        \"jobPosition\": null,\n        \"address\": null,\n        \"status\": 0,\n        \"createdAt\": \"2024-07-20T07:22:57.000Z\",\n        \"updatedAt\": \"2024-07-20T07:22:57.000Z\"\n    },\n    {\n        \"id\": 10,\n        \"username\": \"naresh1\",\n        \"password\": \"$2a$08$z4t8d.iALxuTwuZzJnpDOuCJnp6UxB0OULRAao7573rdtZSCJgI82\",\n        \"roleId\": 2,\n        \"mobileNumber\": \"8469551551\",\n        \"emailAddress\": \"mor@gmail.com\",\n        \"profilePicture\": null,\n        \"city\": null,\n        \"state\": null,\n        \"country\": null,\n        \"jobPosition\": null,\n        \"address\": null,\n        \"status\": 0,\n        \"createdAt\": \"2024-07-20T08:10:46.000Z\",\n        \"updatedAt\": \"2024-07-20T08:10:46.000Z\"\n    },\n    {\n        \"id\": 11,\n        \"username\": \"naresh7\",\n        \"password\": \"$2a$08$Hbj80Xm6L2CqEQYSMHuDTOb/qUySHtJdC/8mwld9x7VeT9wXm9lFW\",\n        \"roleId\": 2,\n        \"mobileNumber\": \"84695515510\",\n        \"emailAddress\": \"mor1@gmail.com\",\n        \"profilePicture\": null,\n        \"city\": null,\n        \"state\": null,\n        \"country\": null,\n        \"jobPosition\": null,\n        \"address\": null,\n        \"status\": 0,\n        \"createdAt\": \"2024-08-20T06:05:11.000Z\",\n        \"updatedAt\": \"2024-08-20T06:05:11.000Z\"\n    },\n    {\n        \"id\": 12,\n        \"username\": \"viek\",\n        \"password\": \"$2a$08$BVxia7Rf2/wdWHRAcf1jxu2dWrMgZddk7q/AdCWoieA7o4priRzpS\",\n        \"roleId\": 2,\n        \"mobileNumber\": \"84695515512\",\n        \"emailAddress\": \"mor1@gmail.com\",\n        \"profilePicture\": null,\n        \"city\": null,\n        \"state\": null,\n        \"country\": null,\n        \"jobPosition\": null,\n        \"address\": null,\n        \"status\": 0,\n        \"createdAt\": \"2024-09-03T05:23:03.000Z\",\n        \"updatedAt\": \"2024-09-03T05:23:03.000Z\"\n    },\n    {\n        \"id\": 13,\n        \"username\": \"rahul raj\",\n        \"password\": \"$2a$08$K7XGQJHXrX50buFZgewRb.nhb/Mj53eRUbqf/OL8173v.MrCrtDhG\",\n        \"roleId\": 2,\n        \"mobileNumber\": \"7016836016\",\n        \"emailAddress\": \"mor1@gmail.com\",\n        \"profilePicture\": null,\n        \"city\": null,\n        \"state\": null,\n        \"country\": null,\n        \"jobPosition\": null,\n        \"address\": null,\n        \"status\": 0,\n        \"createdAt\": \"2024-09-03T05:24:10.000Z\",\n        \"updatedAt\": \"2024-09-03T05:24:10.000Z\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Get Single User",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTQsInJvbGUiOjEsImlhdCI6MTczOTU5MzY4OX0.TLW1MgJhNR922cUAZeMor39i1SnlrxanzVSg3nT8uK8",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/users/14",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"14"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get All",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{Authorization}}",
+										"type": "text"
+									},
+									{
+										"key": "",
+										"value": "",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/users",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Fri, 15 Nov 2024 05:54:34 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"848-IEBv5UMKso5cpiSHFUuQjzEDMvw\""
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "GET, POST, OPTIONS"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,Authorization"
+								},
+								{
+									"key": "Access-Control-Expose-Headers",
+									"value": "Content-Length,Content-Range"
+								},
+								{
+									"key": "cf-cache-status",
+									"value": "DYNAMIC"
+								},
+								{
+									"key": "Report-To",
+									"value": "{\"endpoints\":[{\"url\":\"https:\\/\\/a.nel.cloudflare.com\\/report\\/v4?s=l82QyYqYLY20zdhQdng3IQwLjParVAwzgrKMHSh5jgAPjdxf%2BRSOsNFVWmStG92TIT9%2BBWa2s5L%2FCi9hePrOoezgZwbUpuvK0BxZP615g%2BY1NUGKJvudLYE87JI8zTY%3D\"}],\"group\":\"cf-nel\",\"max_age\":604800}"
+								},
+								{
+									"key": "NEL",
+									"value": "{\"success_fraction\":0,\"report_to\":\"cf-nel\",\"max_age\":604800}"
+								},
+								{
+									"key": "Server",
+									"value": "cloudflare"
+								},
+								{
+									"key": "CF-RAY",
+									"value": "8e2cfcc2cb20e17f-MRS"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "br"
+								},
+								{
+									"key": "alt-svc",
+									"value": "h3=\":443\"; ma=86400"
+								},
+								{
+									"key": "server-timing",
+									"value": "cfL4;desc=\"?proto=TCP&rtt=122948&sent=61&recv=59&lost=0&retrans=0&sent_bytes=4780&recv_bytes=1117&delivery_rate=47536&cwnd=255&unsent_bytes=0&cid=8a17fd4670e48569&ts=59511&x=0\""
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": 2,\n        \"username\": \"mor\",\n        \"password\": \"$2a$08$huZNFgPLkm9k1UzAmiT4JeWGT/v.AvlCCGVtBowQV17ho9MoNn8AK\",\n        \"roleId\": 1,\n        \"mobileNumber\": null,\n        \"emailAddress\": null,\n        \"profilePicture\": null,\n        \"city\": null,\n        \"state\": null,\n        \"country\": null,\n        \"jobPosition\": null,\n        \"address\": null,\n        \"status\": 0,\n        \"createdAt\": \"2024-07-20T07:20:11.000Z\",\n        \"updatedAt\": \"2024-07-20T07:20:11.000Z\"\n    },\n    {\n        \"id\": 3,\n        \"username\": \"naresh\",\n        \"password\": \"$2a$08$XabA2gq0FHfWc062b6ItIuiHlsoD/q/MWdQO.DK/XZJqcc9innADq\",\n        \"roleId\": 2,\n        \"mobileNumber\": null,\n        \"emailAddress\": null,\n        \"profilePicture\": null,\n        \"city\": null,\n        \"state\": null,\n        \"country\": null,\n        \"jobPosition\": null,\n        \"address\": null,\n        \"status\": 0,\n        \"createdAt\": \"2024-07-20T07:22:57.000Z\",\n        \"updatedAt\": \"2024-07-20T07:22:57.000Z\"\n    },\n    {\n        \"id\": 10,\n        \"username\": \"naresh1\",\n        \"password\": \"$2a$08$z4t8d.iALxuTwuZzJnpDOuCJnp6UxB0OULRAao7573rdtZSCJgI82\",\n        \"roleId\": 2,\n        \"mobileNumber\": \"8469551551\",\n        \"emailAddress\": \"mor@gmail.com\",\n        \"profilePicture\": null,\n        \"city\": null,\n        \"state\": null,\n        \"country\": null,\n        \"jobPosition\": null,\n        \"address\": null,\n        \"status\": 0,\n        \"createdAt\": \"2024-07-20T08:10:46.000Z\",\n        \"updatedAt\": \"2024-07-20T08:10:46.000Z\"\n    },\n    {\n        \"id\": 11,\n        \"username\": \"naresh7\",\n        \"password\": \"$2a$08$Hbj80Xm6L2CqEQYSMHuDTOb/qUySHtJdC/8mwld9x7VeT9wXm9lFW\",\n        \"roleId\": 2,\n        \"mobileNumber\": \"84695515510\",\n        \"emailAddress\": \"mor1@gmail.com\",\n        \"profilePicture\": null,\n        \"city\": null,\n        \"state\": null,\n        \"country\": null,\n        \"jobPosition\": null,\n        \"address\": null,\n        \"status\": 0,\n        \"createdAt\": \"2024-08-20T06:05:11.000Z\",\n        \"updatedAt\": \"2024-08-20T06:05:11.000Z\"\n    },\n    {\n        \"id\": 12,\n        \"username\": \"viek\",\n        \"password\": \"$2a$08$BVxia7Rf2/wdWHRAcf1jxu2dWrMgZddk7q/AdCWoieA7o4priRzpS\",\n        \"roleId\": 2,\n        \"mobileNumber\": \"84695515512\",\n        \"emailAddress\": \"mor1@gmail.com\",\n        \"profilePicture\": null,\n        \"city\": null,\n        \"state\": null,\n        \"country\": null,\n        \"jobPosition\": null,\n        \"address\": null,\n        \"status\": 0,\n        \"createdAt\": \"2024-09-03T05:23:03.000Z\",\n        \"updatedAt\": \"2024-09-03T05:23:03.000Z\"\n    },\n    {\n        \"id\": 13,\n        \"username\": \"rahul raj\",\n        \"password\": \"$2a$08$K7XGQJHXrX50buFZgewRb.nhb/Mj53eRUbqf/OL8173v.MrCrtDhG\",\n        \"roleId\": 2,\n        \"mobileNumber\": \"7016836016\",\n        \"emailAddress\": \"mor1@gmail.com\",\n        \"profilePicture\": null,\n        \"city\": null,\n        \"state\": null,\n        \"country\": null,\n        \"jobPosition\": null,\n        \"address\": null,\n        \"status\": 0,\n        \"createdAt\": \"2024-09-03T05:24:10.000Z\",\n        \"updatedAt\": \"2024-09-03T05:24:10.000Z\"\n    }\n]"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "RolePermissions",
+			"item": [
+				{
+					"name": "Assign permissions of role",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Authorization}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"roleId\":6,\r\n    \"permissionIds\":[16]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/role-permissions",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"role-permissions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update permissions of role",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Authorization}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"roleId\":6,\r\n    \"permissionIds\":[13,14,15,16]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/role-permissions",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"role-permissions"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Locations",
+			"item": [
+				{
+					"name": "countries",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/countries",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"countries"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "18545"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"4871-A3Nb1LVeZXIMKhismr4fM6YwIso\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 14 Feb 2025 11:35:26 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"data\": [\n        {\n            \"id\": 1,\n            \"name\": \"Afghanistan\",\n            \"iso2\": \"AF\",\n            \"iso3\": \"AFG\",\n            \"phonecode\": \"93\"\n        },\n        {\n            \"id\": 2,\n            \"name\": \"Aland Islands\",\n            \"iso2\": \"AX\",\n            \"iso3\": \"ALA\",\n            \"phonecode\": \"+358-18\"\n        },\n        {\n            \"id\": 3,\n            \"name\": \"Albania\",\n            \"iso2\": \"AL\",\n            \"iso3\": \"ALB\",\n            \"phonecode\": \"355\"\n        },\n        {\n            \"id\": 4,\n            \"name\": \"Algeria\",\n            \"iso2\": \"DZ\",\n            \"iso3\": \"DZA\",\n            \"phonecode\": \"213\"\n        },\n        {\n            \"id\": 5,\n            \"name\": \"American Samoa\",\n            \"iso2\": \"AS\",\n            \"iso3\": \"ASM\",\n            \"phonecode\": \"+1-684\"\n        },\n        {\n            \"id\": 6,\n            \"name\": \"Andorra\",\n            \"iso2\": \"AD\",\n            \"iso3\": \"AND\",\n            \"phonecode\": \"376\"\n        },\n        {\n            \"id\": 7,\n            \"name\": \"Angola\",\n            \"iso2\": \"AO\",\n            \"iso3\": \"AGO\",\n            \"phonecode\": \"244\"\n        },\n        {\n            \"id\": 8,\n            \"name\": \"Anguilla\",\n            \"iso2\": \"AI\",\n            \"iso3\": \"AIA\",\n            \"phonecode\": \"+1-264\"\n        },\n        {\n            \"id\": 9,\n            \"name\": \"Antarctica\",\n            \"iso2\": \"AQ\",\n            \"iso3\": \"ATA\",\n            \"phonecode\": \"\"\n        },\n        {\n            \"id\": 10,\n            \"name\": \"Antigua And Barbuda\",\n            \"iso2\": \"AG\",\n            \"iso3\": \"ATG\",\n            \"phonecode\": \"+1-268\"\n        },\n        {\n            \"id\": 11,\n            \"name\": \"Argentina\",\n            \"iso2\": \"AR\",\n            \"iso3\": \"ARG\",\n            \"phonecode\": \"54\"\n        },\n        {\n            \"id\": 12,\n            \"name\": \"Armenia\",\n            \"iso2\": \"AM\",\n            \"iso3\": \"ARM\",\n            \"phonecode\": \"374\"\n        },\n        {\n            \"id\": 13,\n            \"name\": \"Aruba\",\n            \"iso2\": \"AW\",\n            \"iso3\": \"ABW\",\n            \"phonecode\": \"297\"\n        },\n        {\n            \"id\": 14,\n            \"name\": \"Australia\",\n            \"iso2\": \"AU\",\n            \"iso3\": \"AUS\",\n            \"phonecode\": \"61\"\n        },\n        {\n            \"id\": 15,\n            \"name\": \"Austria\",\n            \"iso2\": \"AT\",\n            \"iso3\": \"AUT\",\n            \"phonecode\": \"43\"\n        },\n        {\n            \"id\": 16,\n            \"name\": \"Azerbaijan\",\n            \"iso2\": \"AZ\",\n            \"iso3\": \"AZE\",\n            \"phonecode\": \"994\"\n        },\n        {\n            \"id\": 17,\n            \"name\": \"Bahamas The\",\n            \"iso2\": \"BS\",\n            \"iso3\": \"BHS\",\n            \"phonecode\": \"+1-242\"\n        },\n        {\n            \"id\": 18,\n            \"name\": \"Bahrain\",\n            \"iso2\": \"BH\",\n            \"iso3\": \"BHR\",\n            \"phonecode\": \"973\"\n        },\n        {\n            \"id\": 19,\n            \"name\": \"Bangladesh\",\n            \"iso2\": \"BD\",\n            \"iso3\": \"BGD\",\n            \"phonecode\": \"880\"\n        },\n        {\n            \"id\": 20,\n            \"name\": \"Barbados\",\n            \"iso2\": \"BB\",\n            \"iso3\": \"BRB\",\n            \"phonecode\": \"+1-246\"\n        },\n        {\n            \"id\": 21,\n            \"name\": \"Belarus\",\n            \"iso2\": \"BY\",\n            \"iso3\": \"BLR\",\n            \"phonecode\": \"375\"\n        },\n        {\n            \"id\": 22,\n            \"name\": \"Belgium\",\n            \"iso2\": \"BE\",\n            \"iso3\": \"BEL\",\n            \"phonecode\": \"32\"\n        },\n        {\n            \"id\": 23,\n            \"name\": \"Belize\",\n            \"iso2\": \"BZ\",\n            \"iso3\": \"BLZ\",\n            \"phonecode\": \"501\"\n        },\n        {\n            \"id\": 24,\n            \"name\": \"Benin\",\n            \"iso2\": \"BJ\",\n            \"iso3\": \"BEN\",\n            \"phonecode\": \"229\"\n        },\n        {\n            \"id\": 25,\n            \"name\": \"Bermuda\",\n            \"iso2\": \"BM\",\n            \"iso3\": \"BMU\",\n            \"phonecode\": \"+1-441\"\n        },\n        {\n            \"id\": 26,\n            \"name\": \"Bhutan\",\n            \"iso2\": \"BT\",\n            \"iso3\": \"BTN\",\n            \"phonecode\": \"975\"\n        },\n        {\n            \"id\": 27,\n            \"name\": \"Bolivia\",\n            \"iso2\": \"BO\",\n            \"iso3\": \"BOL\",\n            \"phonecode\": \"591\"\n        },\n        {\n            \"id\": 155,\n            \"name\": \"Bonaire, Sint Eustatius and Saba\",\n            \"iso2\": \"BQ\",\n            \"iso3\": \"BES\",\n            \"phonecode\": \"599\"\n        },\n        {\n            \"id\": 28,\n            \"name\": \"Bosnia and Herzegovina\",\n            \"iso2\": \"BA\",\n            \"iso3\": \"BIH\",\n            \"phonecode\": \"387\"\n        },\n        {\n            \"id\": 29,\n            \"name\": \"Botswana\",\n            \"iso2\": \"BW\",\n            \"iso3\": \"BWA\",\n            \"phonecode\": \"267\"\n        },\n        {\n            \"id\": 30,\n            \"name\": \"Bouvet Island\",\n            \"iso2\": \"BV\",\n            \"iso3\": \"BVT\",\n            \"phonecode\": \"0055\"\n        },\n        {\n            \"id\": 31,\n            \"name\": \"Brazil\",\n            \"iso2\": \"BR\",\n            \"iso3\": \"BRA\",\n            \"phonecode\": \"55\"\n        },\n        {\n            \"id\": 32,\n            \"name\": \"British Indian Ocean Territory\",\n            \"iso2\": \"IO\",\n            \"iso3\": \"IOT\",\n            \"phonecode\": \"246\"\n        },\n        {\n            \"id\": 33,\n            \"name\": \"Brunei\",\n            \"iso2\": \"BN\",\n            \"iso3\": \"BRN\",\n            \"phonecode\": \"673\"\n        },\n        {\n            \"id\": 34,\n            \"name\": \"Bulgaria\",\n            \"iso2\": \"BG\",\n            \"iso3\": \"BGR\",\n            \"phonecode\": \"359\"\n        },\n        {\n            \"id\": 35,\n            \"name\": \"Burkina Faso\",\n            \"iso2\": \"BF\",\n            \"iso3\": \"BFA\",\n            \"phonecode\": \"226\"\n        },\n        {\n            \"id\": 36,\n            \"name\": \"Burundi\",\n            \"iso2\": \"BI\",\n            \"iso3\": \"BDI\",\n            \"phonecode\": \"257\"\n        },\n        {\n            \"id\": 37,\n            \"name\": \"Cambodia\",\n            \"iso2\": \"KH\",\n            \"iso3\": \"KHM\",\n            \"phonecode\": \"855\"\n        },\n        {\n            \"id\": 38,\n            \"name\": \"Cameroon\",\n            \"iso2\": \"CM\",\n            \"iso3\": \"CMR\",\n            \"phonecode\": \"237\"\n        },\n        {\n            \"id\": 39,\n            \"name\": \"Canada\",\n            \"iso2\": \"CA\",\n            \"iso3\": \"CAN\",\n            \"phonecode\": \"1\"\n        },\n        {\n            \"id\": 40,\n            \"name\": \"Cape Verde\",\n            \"iso2\": \"CV\",\n            \"iso3\": \"CPV\",\n            \"phonecode\": \"238\"\n        },\n        {\n            \"id\": 41,\n            \"name\": \"Cayman Islands\",\n            \"iso2\": \"KY\",\n            \"iso3\": \"CYM\",\n            \"phonecode\": \"+1-345\"\n        },\n        {\n            \"id\": 42,\n            \"name\": \"Central African Republic\",\n            \"iso2\": \"CF\",\n            \"iso3\": \"CAF\",\n            \"phonecode\": \"236\"\n        },\n        {\n            \"id\": 43,\n            \"name\": \"Chad\",\n            \"iso2\": \"TD\",\n            \"iso3\": \"TCD\",\n            \"phonecode\": \"235\"\n        },\n        {\n            \"id\": 44,\n            \"name\": \"Chile\",\n            \"iso2\": \"CL\",\n            \"iso3\": \"CHL\",\n            \"phonecode\": \"56\"\n        },\n        {\n            \"id\": 45,\n            \"name\": \"China\",\n            \"iso2\": \"CN\",\n            \"iso3\": \"CHN\",\n            \"phonecode\": \"86\"\n        },\n        {\n            \"id\": 46,\n            \"name\": \"Christmas Island\",\n            \"iso2\": \"CX\",\n            \"iso3\": \"CXR\",\n            \"phonecode\": \"61\"\n        },\n        {\n            \"id\": 47,\n            \"name\": \"Cocos (Keeling) Islands\",\n            \"iso2\": \"CC\",\n            \"iso3\": \"CCK\",\n            \"phonecode\": \"61\"\n        },\n        {\n            \"id\": 48,\n            \"name\": \"Colombia\",\n            \"iso2\": \"CO\",\n            \"iso3\": \"COL\",\n            \"phonecode\": \"57\"\n        },\n        {\n            \"id\": 49,\n            \"name\": \"Comoros\",\n            \"iso2\": \"KM\",\n            \"iso3\": \"COM\",\n            \"phonecode\": \"269\"\n        },\n        {\n            \"id\": 50,\n            \"name\": \"Congo\",\n            \"iso2\": \"CG\",\n            \"iso3\": \"COG\",\n            \"phonecode\": \"242\"\n        },\n        {\n            \"id\": 51,\n            \"name\": \"Congo The Democratic Republic Of The\",\n            \"iso2\": \"CD\",\n            \"iso3\": \"COD\",\n            \"phonecode\": \"243\"\n        },\n        {\n            \"id\": 52,\n            \"name\": \"Cook Islands\",\n            \"iso2\": \"CK\",\n            \"iso3\": \"COK\",\n            \"phonecode\": \"682\"\n        },\n        {\n            \"id\": 53,\n            \"name\": \"Costa Rica\",\n            \"iso2\": \"CR\",\n            \"iso3\": \"CRI\",\n            \"phonecode\": \"506\"\n        },\n        {\n            \"id\": 54,\n            \"name\": \"Cote D'Ivoire (Ivory Coast)\",\n            \"iso2\": \"CI\",\n            \"iso3\": \"CIV\",\n            \"phonecode\": \"225\"\n        },\n        {\n            \"id\": 55,\n            \"name\": \"Croatia (Hrvatska)\",\n            \"iso2\": \"HR\",\n            \"iso3\": \"HRV\",\n            \"phonecode\": \"385\"\n        },\n        {\n            \"id\": 56,\n            \"name\": \"Cuba\",\n            \"iso2\": \"CU\",\n            \"iso3\": \"CUB\",\n            \"phonecode\": \"53\"\n        },\n        {\n            \"id\": 249,\n            \"name\": \"Curaçao\",\n            \"iso2\": \"CW\",\n            \"iso3\": \"CUW\",\n            \"phonecode\": \"599\"\n        },\n        {\n            \"id\": 57,\n            \"name\": \"Cyprus\",\n            \"iso2\": \"CY\",\n            \"iso3\": \"CYP\",\n            \"phonecode\": \"357\"\n        },\n        {\n            \"id\": 58,\n            \"name\": \"Czech Republic\",\n            \"iso2\": \"CZ\",\n            \"iso3\": \"CZE\",\n            \"phonecode\": \"420\"\n        },\n        {\n            \"id\": 59,\n            \"name\": \"Denmark\",\n            \"iso2\": \"DK\",\n            \"iso3\": \"DNK\",\n            \"phonecode\": \"45\"\n        },\n        {\n            \"id\": 60,\n            \"name\": \"Djibouti\",\n            \"iso2\": \"DJ\",\n            \"iso3\": \"DJI\",\n            \"phonecode\": \"253\"\n        },\n        {\n            \"id\": 61,\n            \"name\": \"Dominica\",\n            \"iso2\": \"DM\",\n            \"iso3\": \"DMA\",\n            \"phonecode\": \"+1-767\"\n        },\n        {\n            \"id\": 62,\n            \"name\": \"Dominican Republic\",\n            \"iso2\": \"DO\",\n            \"iso3\": \"DOM\",\n            \"phonecode\": \"+1-809 and 1-829\"\n        },\n        {\n            \"id\": 63,\n            \"name\": \"East Timor\",\n            \"iso2\": \"TL\",\n            \"iso3\": \"TLS\",\n            \"phonecode\": \"670\"\n        },\n        {\n            \"id\": 64,\n            \"name\": \"Ecuador\",\n            \"iso2\": \"EC\",\n            \"iso3\": \"ECU\",\n            \"phonecode\": \"593\"\n        },\n        {\n            \"id\": 65,\n            \"name\": \"Egypt\",\n            \"iso2\": \"EG\",\n            \"iso3\": \"EGY\",\n            \"phonecode\": \"20\"\n        },\n        {\n            \"id\": 66,\n            \"name\": \"El Salvador\",\n            \"iso2\": \"SV\",\n            \"iso3\": \"SLV\",\n            \"phonecode\": \"503\"\n        },\n        {\n            \"id\": 67,\n            \"name\": \"Equatorial Guinea\",\n            \"iso2\": \"GQ\",\n            \"iso3\": \"GNQ\",\n            \"phonecode\": \"240\"\n        },\n        {\n            \"id\": 68,\n            \"name\": \"Eritrea\",\n            \"iso2\": \"ER\",\n            \"iso3\": \"ERI\",\n            \"phonecode\": \"291\"\n        },\n        {\n            \"id\": 69,\n            \"name\": \"Estonia\",\n            \"iso2\": \"EE\",\n            \"iso3\": \"EST\",\n            \"phonecode\": \"372\"\n        },\n        {\n            \"id\": 70,\n            \"name\": \"Ethiopia\",\n            \"iso2\": \"ET\",\n            \"iso3\": \"ETH\",\n            \"phonecode\": \"251\"\n        },\n        {\n            \"id\": 71,\n            \"name\": \"Falkland Islands\",\n            \"iso2\": \"FK\",\n            \"iso3\": \"FLK\",\n            \"phonecode\": \"500\"\n        },\n        {\n            \"id\": 72,\n            \"name\": \"Faroe Islands\",\n            \"iso2\": \"FO\",\n            \"iso3\": \"FRO\",\n            \"phonecode\": \"298\"\n        },\n        {\n            \"id\": 73,\n            \"name\": \"Fiji Islands\",\n            \"iso2\": \"FJ\",\n            \"iso3\": \"FJI\",\n            \"phonecode\": \"679\"\n        },\n        {\n            \"id\": 74,\n            \"name\": \"Finland\",\n            \"iso2\": \"FI\",\n            \"iso3\": \"FIN\",\n            \"phonecode\": \"358\"\n        },\n        {\n            \"id\": 75,\n            \"name\": \"France\",\n            \"iso2\": \"FR\",\n            \"iso3\": \"FRA\",\n            \"phonecode\": \"33\"\n        },\n        {\n            \"id\": 76,\n            \"name\": \"French Guiana\",\n            \"iso2\": \"GF\",\n            \"iso3\": \"GUF\",\n            \"phonecode\": \"594\"\n        },\n        {\n            \"id\": 77,\n            \"name\": \"French Polynesia\",\n            \"iso2\": \"PF\",\n            \"iso3\": \"PYF\",\n            \"phonecode\": \"689\"\n        },\n        {\n            \"id\": 78,\n            \"name\": \"French Southern Territories\",\n            \"iso2\": \"TF\",\n            \"iso3\": \"ATF\",\n            \"phonecode\": \"\"\n        },\n        {\n            \"id\": 79,\n            \"name\": \"Gabon\",\n            \"iso2\": \"GA\",\n            \"iso3\": \"GAB\",\n            \"phonecode\": \"241\"\n        },\n        {\n            \"id\": 80,\n            \"name\": \"Gambia The\",\n            \"iso2\": \"GM\",\n            \"iso3\": \"GMB\",\n            \"phonecode\": \"220\"\n        },\n        {\n            \"id\": 81,\n            \"name\": \"Georgia\",\n            \"iso2\": \"GE\",\n            \"iso3\": \"GEO\",\n            \"phonecode\": \"995\"\n        },\n        {\n            \"id\": 82,\n            \"name\": \"Germany\",\n            \"iso2\": \"DE\",\n            \"iso3\": \"DEU\",\n            \"phonecode\": \"49\"\n        },\n        {\n            \"id\": 83,\n            \"name\": \"Ghana\",\n            \"iso2\": \"GH\",\n            \"iso3\": \"GHA\",\n            \"phonecode\": \"233\"\n        },\n        {\n            \"id\": 84,\n            \"name\": \"Gibraltar\",\n            \"iso2\": \"GI\",\n            \"iso3\": \"GIB\",\n            \"phonecode\": \"350\"\n        },\n        {\n            \"id\": 85,\n            \"name\": \"Greece\",\n            \"iso2\": \"GR\",\n            \"iso3\": \"GRC\",\n            \"phonecode\": \"30\"\n        },\n        {\n            \"id\": 86,\n            \"name\": \"Greenland\",\n            \"iso2\": \"GL\",\n            \"iso3\": \"GRL\",\n            \"phonecode\": \"299\"\n        },\n        {\n            \"id\": 87,\n            \"name\": \"Grenada\",\n            \"iso2\": \"GD\",\n            \"iso3\": \"GRD\",\n            \"phonecode\": \"+1-473\"\n        },\n        {\n            \"id\": 88,\n            \"name\": \"Guadeloupe\",\n            \"iso2\": \"GP\",\n            \"iso3\": \"GLP\",\n            \"phonecode\": \"590\"\n        },\n        {\n            \"id\": 89,\n            \"name\": \"Guam\",\n            \"iso2\": \"GU\",\n            \"iso3\": \"GUM\",\n            \"phonecode\": \"+1-671\"\n        },\n        {\n            \"id\": 90,\n            \"name\": \"Guatemala\",\n            \"iso2\": \"GT\",\n            \"iso3\": \"GTM\",\n            \"phonecode\": \"502\"\n        },\n        {\n            \"id\": 91,\n            \"name\": \"Guernsey and Alderney\",\n            \"iso2\": \"GG\",\n            \"iso3\": \"GGY\",\n            \"phonecode\": \"+44-1481\"\n        },\n        {\n            \"id\": 92,\n            \"name\": \"Guinea\",\n            \"iso2\": \"GN\",\n            \"iso3\": \"GIN\",\n            \"phonecode\": \"224\"\n        },\n        {\n            \"id\": 93,\n            \"name\": \"Guinea-Bissau\",\n            \"iso2\": \"GW\",\n            \"iso3\": \"GNB\",\n            \"phonecode\": \"245\"\n        },\n        {\n            \"id\": 94,\n            \"name\": \"Guyana\",\n            \"iso2\": \"GY\",\n            \"iso3\": \"GUY\",\n            \"phonecode\": \"592\"\n        },\n        {\n            \"id\": 95,\n            \"name\": \"Haiti\",\n            \"iso2\": \"HT\",\n            \"iso3\": \"HTI\",\n            \"phonecode\": \"509\"\n        },\n        {\n            \"id\": 96,\n            \"name\": \"Heard Island and McDonald Islands\",\n            \"iso2\": \"HM\",\n            \"iso3\": \"HMD\",\n            \"phonecode\": \"\"\n        },\n        {\n            \"id\": 97,\n            \"name\": \"Honduras\",\n            \"iso2\": \"HN\",\n            \"iso3\": \"HND\",\n            \"phonecode\": \"504\"\n        },\n        {\n            \"id\": 98,\n            \"name\": \"Hong Kong S.A.R.\",\n            \"iso2\": \"HK\",\n            \"iso3\": \"HKG\",\n            \"phonecode\": \"852\"\n        },\n        {\n            \"id\": 99,\n            \"name\": \"Hungary\",\n            \"iso2\": \"HU\",\n            \"iso3\": \"HUN\",\n            \"phonecode\": \"36\"\n        },\n        {\n            \"id\": 100,\n            \"name\": \"Iceland\",\n            \"iso2\": \"IS\",\n            \"iso3\": \"ISL\",\n            \"phonecode\": \"354\"\n        },\n        {\n            \"id\": 101,\n            \"name\": \"India\",\n            \"iso2\": \"IN\",\n            \"iso3\": \"IND\",\n            \"phonecode\": \"91\"\n        },\n        {\n            \"id\": 102,\n            \"name\": \"Indonesia\",\n            \"iso2\": \"ID\",\n            \"iso3\": \"IDN\",\n            \"phonecode\": \"62\"\n        },\n        {\n            \"id\": 103,\n            \"name\": \"Iran\",\n            \"iso2\": \"IR\",\n            \"iso3\": \"IRN\",\n            \"phonecode\": \"98\"\n        },\n        {\n            \"id\": 104,\n            \"name\": \"Iraq\",\n            \"iso2\": \"IQ\",\n            \"iso3\": \"IRQ\",\n            \"phonecode\": \"964\"\n        },\n        {\n            \"id\": 105,\n            \"name\": \"Ireland\",\n            \"iso2\": \"IE\",\n            \"iso3\": \"IRL\",\n            \"phonecode\": \"353\"\n        },\n        {\n            \"id\": 106,\n            \"name\": \"Israel\",\n            \"iso2\": \"IL\",\n            \"iso3\": \"ISR\",\n            \"phonecode\": \"972\"\n        },\n        {\n            \"id\": 107,\n            \"name\": \"Italy\",\n            \"iso2\": \"IT\",\n            \"iso3\": \"ITA\",\n            \"phonecode\": \"39\"\n        },\n        {\n            \"id\": 108,\n            \"name\": \"Jamaica\",\n            \"iso2\": \"JM\",\n            \"iso3\": \"JAM\",\n            \"phonecode\": \"+1-876\"\n        },\n        {\n            \"id\": 109,\n            \"name\": \"Japan\",\n            \"iso2\": \"JP\",\n            \"iso3\": \"JPN\",\n            \"phonecode\": \"81\"\n        },\n        {\n            \"id\": 110,\n            \"name\": \"Jersey\",\n            \"iso2\": \"JE\",\n            \"iso3\": \"JEY\",\n            \"phonecode\": \"+44-1534\"\n        },\n        {\n            \"id\": 111,\n            \"name\": \"Jordan\",\n            \"iso2\": \"JO\",\n            \"iso3\": \"JOR\",\n            \"phonecode\": \"962\"\n        },\n        {\n            \"id\": 112,\n            \"name\": \"Kazakhstan\",\n            \"iso2\": \"KZ\",\n            \"iso3\": \"KAZ\",\n            \"phonecode\": \"7\"\n        },\n        {\n            \"id\": 113,\n            \"name\": \"Kenya\",\n            \"iso2\": \"KE\",\n            \"iso3\": \"KEN\",\n            \"phonecode\": \"254\"\n        },\n        {\n            \"id\": 114,\n            \"name\": \"Kiribati\",\n            \"iso2\": \"KI\",\n            \"iso3\": \"KIR\",\n            \"phonecode\": \"686\"\n        },\n        {\n            \"id\": 115,\n            \"name\": \"Korea North\",\n            \"iso2\": \"KP\",\n            \"iso3\": \"PRK\",\n            \"phonecode\": \"850\"\n        },\n        {\n            \"id\": 116,\n            \"name\": \"Korea South\",\n            \"iso2\": \"KR\",\n            \"iso3\": \"KOR\",\n            \"phonecode\": \"82\"\n        },\n        {\n            \"id\": 248,\n            \"name\": \"Kosovo\",\n            \"iso2\": \"XK\",\n            \"iso3\": \"XKX\",\n            \"phonecode\": \"383\"\n        },\n        {\n            \"id\": 117,\n            \"name\": \"Kuwait\",\n            \"iso2\": \"KW\",\n            \"iso3\": \"KWT\",\n            \"phonecode\": \"965\"\n        },\n        {\n            \"id\": 118,\n            \"name\": \"Kyrgyzstan\",\n            \"iso2\": \"KG\",\n            \"iso3\": \"KGZ\",\n            \"phonecode\": \"996\"\n        },\n        {\n            \"id\": 119,\n            \"name\": \"Laos\",\n            \"iso2\": \"LA\",\n            \"iso3\": \"LAO\",\n            \"phonecode\": \"856\"\n        },\n        {\n            \"id\": 120,\n            \"name\": \"Latvia\",\n            \"iso2\": \"LV\",\n            \"iso3\": \"LVA\",\n            \"phonecode\": \"371\"\n        },\n        {\n            \"id\": 121,\n            \"name\": \"Lebanon\",\n            \"iso2\": \"LB\",\n            \"iso3\": \"LBN\",\n            \"phonecode\": \"961\"\n        },\n        {\n            \"id\": 122,\n            \"name\": \"Lesotho\",\n            \"iso2\": \"LS\",\n            \"iso3\": \"LSO\",\n            \"phonecode\": \"266\"\n        },\n        {\n            \"id\": 123,\n            \"name\": \"Liberia\",\n            \"iso2\": \"LR\",\n            \"iso3\": \"LBR\",\n            \"phonecode\": \"231\"\n        },\n        {\n            \"id\": 124,\n            \"name\": \"Libya\",\n            \"iso2\": \"LY\",\n            \"iso3\": \"LBY\",\n            \"phonecode\": \"218\"\n        },\n        {\n            \"id\": 125,\n            \"name\": \"Liechtenstein\",\n            \"iso2\": \"LI\",\n            \"iso3\": \"LIE\",\n            \"phonecode\": \"423\"\n        },\n        {\n            \"id\": 126,\n            \"name\": \"Lithuania\",\n            \"iso2\": \"LT\",\n            \"iso3\": \"LTU\",\n            \"phonecode\": \"370\"\n        },\n        {\n            \"id\": 127,\n            \"name\": \"Luxembourg\",\n            \"iso2\": \"LU\",\n            \"iso3\": \"LUX\",\n            \"phonecode\": \"352\"\n        },\n        {\n            \"id\": 128,\n            \"name\": \"Macau S.A.R.\",\n            \"iso2\": \"MO\",\n            \"iso3\": \"MAC\",\n            \"phonecode\": \"853\"\n        },\n        {\n            \"id\": 129,\n            \"name\": \"Macedonia\",\n            \"iso2\": \"MK\",\n            \"iso3\": \"MKD\",\n            \"phonecode\": \"389\"\n        },\n        {\n            \"id\": 130,\n            \"name\": \"Madagascar\",\n            \"iso2\": \"MG\",\n            \"iso3\": \"MDG\",\n            \"phonecode\": \"261\"\n        },\n        {\n            \"id\": 131,\n            \"name\": \"Malawi\",\n            \"iso2\": \"MW\",\n            \"iso3\": \"MWI\",\n            \"phonecode\": \"265\"\n        },\n        {\n            \"id\": 132,\n            \"name\": \"Malaysia\",\n            \"iso2\": \"MY\",\n            \"iso3\": \"MYS\",\n            \"phonecode\": \"60\"\n        },\n        {\n            \"id\": 133,\n            \"name\": \"Maldives\",\n            \"iso2\": \"MV\",\n            \"iso3\": \"MDV\",\n            \"phonecode\": \"960\"\n        },\n        {\n            \"id\": 134,\n            \"name\": \"Mali\",\n            \"iso2\": \"ML\",\n            \"iso3\": \"MLI\",\n            \"phonecode\": \"223\"\n        },\n        {\n            \"id\": 135,\n            \"name\": \"Malta\",\n            \"iso2\": \"MT\",\n            \"iso3\": \"MLT\",\n            \"phonecode\": \"356\"\n        },\n        {\n            \"id\": 136,\n            \"name\": \"Man (Isle of)\",\n            \"iso2\": \"IM\",\n            \"iso3\": \"IMN\",\n            \"phonecode\": \"+44-1624\"\n        },\n        {\n            \"id\": 137,\n            \"name\": \"Marshall Islands\",\n            \"iso2\": \"MH\",\n            \"iso3\": \"MHL\",\n            \"phonecode\": \"692\"\n        },\n        {\n            \"id\": 138,\n            \"name\": \"Martinique\",\n            \"iso2\": \"MQ\",\n            \"iso3\": \"MTQ\",\n            \"phonecode\": \"596\"\n        },\n        {\n            \"id\": 139,\n            \"name\": \"Mauritania\",\n            \"iso2\": \"MR\",\n            \"iso3\": \"MRT\",\n            \"phonecode\": \"222\"\n        },\n        {\n            \"id\": 140,\n            \"name\": \"Mauritius\",\n            \"iso2\": \"MU\",\n            \"iso3\": \"MUS\",\n            \"phonecode\": \"230\"\n        },\n        {\n            \"id\": 141,\n            \"name\": \"Mayotte\",\n            \"iso2\": \"YT\",\n            \"iso3\": \"MYT\",\n            \"phonecode\": \"262\"\n        },\n        {\n            \"id\": 142,\n            \"name\": \"Mexico\",\n            \"iso2\": \"MX\",\n            \"iso3\": \"MEX\",\n            \"phonecode\": \"52\"\n        },\n        {\n            \"id\": 143,\n            \"name\": \"Micronesia\",\n            \"iso2\": \"FM\",\n            \"iso3\": \"FSM\",\n            \"phonecode\": \"691\"\n        },\n        {\n            \"id\": 144,\n            \"name\": \"Moldova\",\n            \"iso2\": \"MD\",\n            \"iso3\": \"MDA\",\n            \"phonecode\": \"373\"\n        },\n        {\n            \"id\": 145,\n            \"name\": \"Monaco\",\n            \"iso2\": \"MC\",\n            \"iso3\": \"MCO\",\n            \"phonecode\": \"377\"\n        },\n        {\n            \"id\": 146,\n            \"name\": \"Mongolia\",\n            \"iso2\": \"MN\",\n            \"iso3\": \"MNG\",\n            \"phonecode\": \"976\"\n        },\n        {\n            \"id\": 147,\n            \"name\": \"Montenegro\",\n            \"iso2\": \"ME\",\n            \"iso3\": \"MNE\",\n            \"phonecode\": \"382\"\n        },\n        {\n            \"id\": 148,\n            \"name\": \"Montserrat\",\n            \"iso2\": \"MS\",\n            \"iso3\": \"MSR\",\n            \"phonecode\": \"+1-664\"\n        },\n        {\n            \"id\": 149,\n            \"name\": \"Morocco\",\n            \"iso2\": \"MA\",\n            \"iso3\": \"MAR\",\n            \"phonecode\": \"212\"\n        },\n        {\n            \"id\": 150,\n            \"name\": \"Mozambique\",\n            \"iso2\": \"MZ\",\n            \"iso3\": \"MOZ\",\n            \"phonecode\": \"258\"\n        },\n        {\n            \"id\": 151,\n            \"name\": \"Myanmar\",\n            \"iso2\": \"MM\",\n            \"iso3\": \"MMR\",\n            \"phonecode\": \"95\"\n        },\n        {\n            \"id\": 152,\n            \"name\": \"Namibia\",\n            \"iso2\": \"NA\",\n            \"iso3\": \"NAM\",\n            \"phonecode\": \"264\"\n        },\n        {\n            \"id\": 153,\n            \"name\": \"Nauru\",\n            \"iso2\": \"NR\",\n            \"iso3\": \"NRU\",\n            \"phonecode\": \"674\"\n        },\n        {\n            \"id\": 154,\n            \"name\": \"Nepal\",\n            \"iso2\": \"NP\",\n            \"iso3\": \"NPL\",\n            \"phonecode\": \"977\"\n        },\n        {\n            \"id\": 156,\n            \"name\": \"Netherlands The\",\n            \"iso2\": \"NL\",\n            \"iso3\": \"NLD\",\n            \"phonecode\": \"31\"\n        },\n        {\n            \"id\": 157,\n            \"name\": \"New Caledonia\",\n            \"iso2\": \"NC\",\n            \"iso3\": \"NCL\",\n            \"phonecode\": \"687\"\n        },\n        {\n            \"id\": 158,\n            \"name\": \"New Zealand\",\n            \"iso2\": \"NZ\",\n            \"iso3\": \"NZL\",\n            \"phonecode\": \"64\"\n        },\n        {\n            \"id\": 159,\n            \"name\": \"Nicaragua\",\n            \"iso2\": \"NI\",\n            \"iso3\": \"NIC\",\n            \"phonecode\": \"505\"\n        },\n        {\n            \"id\": 160,\n            \"name\": \"Niger\",\n            \"iso2\": \"NE\",\n            \"iso3\": \"NER\",\n            \"phonecode\": \"227\"\n        },\n        {\n            \"id\": 161,\n            \"name\": \"Nigeria\",\n            \"iso2\": \"NG\",\n            \"iso3\": \"NGA\",\n            \"phonecode\": \"234\"\n        },\n        {\n            \"id\": 162,\n            \"name\": \"Niue\",\n            \"iso2\": \"NU\",\n            \"iso3\": \"NIU\",\n            \"phonecode\": \"683\"\n        },\n        {\n            \"id\": 163,\n            \"name\": \"Norfolk Island\",\n            \"iso2\": \"NF\",\n            \"iso3\": \"NFK\",\n            \"phonecode\": \"672\"\n        },\n        {\n            \"id\": 164,\n            \"name\": \"Northern Mariana Islands\",\n            \"iso2\": \"MP\",\n            \"iso3\": \"MNP\",\n            \"phonecode\": \"+1-670\"\n        },\n        {\n            \"id\": 165,\n            \"name\": \"Norway\",\n            \"iso2\": \"NO\",\n            \"iso3\": \"NOR\",\n            \"phonecode\": \"47\"\n        },\n        {\n            \"id\": 166,\n            \"name\": \"Oman\",\n            \"iso2\": \"OM\",\n            \"iso3\": \"OMN\",\n            \"phonecode\": \"968\"\n        },\n        {\n            \"id\": 167,\n            \"name\": \"Pakistan\",\n            \"iso2\": \"PK\",\n            \"iso3\": \"PAK\",\n            \"phonecode\": \"92\"\n        },\n        {\n            \"id\": 168,\n            \"name\": \"Palau\",\n            \"iso2\": \"PW\",\n            \"iso3\": \"PLW\",\n            \"phonecode\": \"680\"\n        },\n        {\n            \"id\": 169,\n            \"name\": \"Palestinian Territory Occupied\",\n            \"iso2\": \"PS\",\n            \"iso3\": \"PSE\",\n            \"phonecode\": \"970\"\n        },\n        {\n            \"id\": 170,\n            \"name\": \"Panama\",\n            \"iso2\": \"PA\",\n            \"iso3\": \"PAN\",\n            \"phonecode\": \"507\"\n        },\n        {\n            \"id\": 171,\n            \"name\": \"Papua new Guinea\",\n            \"iso2\": \"PG\",\n            \"iso3\": \"PNG\",\n            \"phonecode\": \"675\"\n        },\n        {\n            \"id\": 172,\n            \"name\": \"Paraguay\",\n            \"iso2\": \"PY\",\n            \"iso3\": \"PRY\",\n            \"phonecode\": \"595\"\n        },\n        {\n            \"id\": 173,\n            \"name\": \"Peru\",\n            \"iso2\": \"PE\",\n            \"iso3\": \"PER\",\n            \"phonecode\": \"51\"\n        },\n        {\n            \"id\": 174,\n            \"name\": \"Philippines\",\n            \"iso2\": \"PH\",\n            \"iso3\": \"PHL\",\n            \"phonecode\": \"63\"\n        },\n        {\n            \"id\": 175,\n            \"name\": \"Pitcairn Island\",\n            \"iso2\": \"PN\",\n            \"iso3\": \"PCN\",\n            \"phonecode\": \"870\"\n        },\n        {\n            \"id\": 176,\n            \"name\": \"Poland\",\n            \"iso2\": \"PL\",\n            \"iso3\": \"POL\",\n            \"phonecode\": \"48\"\n        },\n        {\n            \"id\": 177,\n            \"name\": \"Portugal\",\n            \"iso2\": \"PT\",\n            \"iso3\": \"PRT\",\n            \"phonecode\": \"351\"\n        },\n        {\n            \"id\": 178,\n            \"name\": \"Puerto Rico\",\n            \"iso2\": \"PR\",\n            \"iso3\": \"PRI\",\n            \"phonecode\": \"+1-787 and 1-939\"\n        },\n        {\n            \"id\": 179,\n            \"name\": \"Qatar\",\n            \"iso2\": \"QA\",\n            \"iso3\": \"QAT\",\n            \"phonecode\": \"974\"\n        },\n        {\n            \"id\": 180,\n            \"name\": \"Reunion\",\n            \"iso2\": \"RE\",\n            \"iso3\": \"REU\",\n            \"phonecode\": \"262\"\n        },\n        {\n            \"id\": 181,\n            \"name\": \"Romania\",\n            \"iso2\": \"RO\",\n            \"iso3\": \"ROU\",\n            \"phonecode\": \"40\"\n        },\n        {\n            \"id\": 182,\n            \"name\": \"Russia\",\n            \"iso2\": \"RU\",\n            \"iso3\": \"RUS\",\n            \"phonecode\": \"7\"\n        },\n        {\n            \"id\": 183,\n            \"name\": \"Rwanda\",\n            \"iso2\": \"RW\",\n            \"iso3\": \"RWA\",\n            \"phonecode\": \"250\"\n        },\n        {\n            \"id\": 184,\n            \"name\": \"Saint Helena\",\n            \"iso2\": \"SH\",\n            \"iso3\": \"SHN\",\n            \"phonecode\": \"290\"\n        },\n        {\n            \"id\": 185,\n            \"name\": \"Saint Kitts And Nevis\",\n            \"iso2\": \"KN\",\n            \"iso3\": \"KNA\",\n            \"phonecode\": \"+1-869\"\n        },\n        {\n            \"id\": 186,\n            \"name\": \"Saint Lucia\",\n            \"iso2\": \"LC\",\n            \"iso3\": \"LCA\",\n            \"phonecode\": \"+1-758\"\n        },\n        {\n            \"id\": 187,\n            \"name\": \"Saint Pierre and Miquelon\",\n            \"iso2\": \"PM\",\n            \"iso3\": \"SPM\",\n            \"phonecode\": \"508\"\n        },\n        {\n            \"id\": 188,\n            \"name\": \"Saint Vincent And The Grenadines\",\n            \"iso2\": \"VC\",\n            \"iso3\": \"VCT\",\n            \"phonecode\": \"+1-784\"\n        },\n        {\n            \"id\": 189,\n            \"name\": \"Saint-Barthelemy\",\n            \"iso2\": \"BL\",\n            \"iso3\": \"BLM\",\n            \"phonecode\": \"590\"\n        },\n        {\n            \"id\": 190,\n            \"name\": \"Saint-Martin (French part)\",\n            \"iso2\": \"MF\",\n            \"iso3\": \"MAF\",\n            \"phonecode\": \"590\"\n        },\n        {\n            \"id\": 191,\n            \"name\": \"Samoa\",\n            \"iso2\": \"WS\",\n            \"iso3\": \"WSM\",\n            \"phonecode\": \"685\"\n        },\n        {\n            \"id\": 192,\n            \"name\": \"San Marino\",\n            \"iso2\": \"SM\",\n            \"iso3\": \"SMR\",\n            \"phonecode\": \"378\"\n        },\n        {\n            \"id\": 193,\n            \"name\": \"Sao Tome and Principe\",\n            \"iso2\": \"ST\",\n            \"iso3\": \"STP\",\n            \"phonecode\": \"239\"\n        },\n        {\n            \"id\": 194,\n            \"name\": \"Saudi Arabia\",\n            \"iso2\": \"SA\",\n            \"iso3\": \"SAU\",\n            \"phonecode\": \"966\"\n        },\n        {\n            \"id\": 195,\n            \"name\": \"Senegal\",\n            \"iso2\": \"SN\",\n            \"iso3\": \"SEN\",\n            \"phonecode\": \"221\"\n        },\n        {\n            \"id\": 196,\n            \"name\": \"Serbia\",\n            \"iso2\": \"RS\",\n            \"iso3\": \"SRB\",\n            \"phonecode\": \"381\"\n        },\n        {\n            \"id\": 197,\n            \"name\": \"Seychelles\",\n            \"iso2\": \"SC\",\n            \"iso3\": \"SYC\",\n            \"phonecode\": \"248\"\n        },\n        {\n            \"id\": 198,\n            \"name\": \"Sierra Leone\",\n            \"iso2\": \"SL\",\n            \"iso3\": \"SLE\",\n            \"phonecode\": \"232\"\n        },\n        {\n            \"id\": 199,\n            \"name\": \"Singapore\",\n            \"iso2\": \"SG\",\n            \"iso3\": \"SGP\",\n            \"phonecode\": \"65\"\n        },\n        {\n            \"id\": 250,\n            \"name\": \"Sint Maarten (Dutch part)\",\n            \"iso2\": \"SX\",\n            \"iso3\": \"SXM\",\n            \"phonecode\": \"1721\"\n        },\n        {\n            \"id\": 200,\n            \"name\": \"Slovakia\",\n            \"iso2\": \"SK\",\n            \"iso3\": \"SVK\",\n            \"phonecode\": \"421\"\n        },\n        {\n            \"id\": 201,\n            \"name\": \"Slovenia\",\n            \"iso2\": \"SI\",\n            \"iso3\": \"SVN\",\n            \"phonecode\": \"386\"\n        },\n        {\n            \"id\": 202,\n            \"name\": \"Solomon Islands\",\n            \"iso2\": \"SB\",\n            \"iso3\": \"SLB\",\n            \"phonecode\": \"677\"\n        },\n        {\n            \"id\": 203,\n            \"name\": \"Somalia\",\n            \"iso2\": \"SO\",\n            \"iso3\": \"SOM\",\n            \"phonecode\": \"252\"\n        },\n        {\n            \"id\": 204,\n            \"name\": \"South Africa\",\n            \"iso2\": \"ZA\",\n            \"iso3\": \"ZAF\",\n            \"phonecode\": \"27\"\n        },\n        {\n            \"id\": 205,\n            \"name\": \"South Georgia\",\n            \"iso2\": \"GS\",\n            \"iso3\": \"SGS\",\n            \"phonecode\": \"\"\n        },\n        {\n            \"id\": 206,\n            \"name\": \"South Sudan\",\n            \"iso2\": \"SS\",\n            \"iso3\": \"SSD\",\n            \"phonecode\": \"211\"\n        },\n        {\n            \"id\": 207,\n            \"name\": \"Spain\",\n            \"iso2\": \"ES\",\n            \"iso3\": \"ESP\",\n            \"phonecode\": \"34\"\n        },\n        {\n            \"id\": 208,\n            \"name\": \"Sri Lanka\",\n            \"iso2\": \"LK\",\n            \"iso3\": \"LKA\",\n            \"phonecode\": \"94\"\n        },\n        {\n            \"id\": 209,\n            \"name\": \"Sudan\",\n            \"iso2\": \"SD\",\n            \"iso3\": \"SDN\",\n            \"phonecode\": \"249\"\n        },\n        {\n            \"id\": 210,\n            \"name\": \"Suriname\",\n            \"iso2\": \"SR\",\n            \"iso3\": \"SUR\",\n            \"phonecode\": \"597\"\n        },\n        {\n            \"id\": 211,\n            \"name\": \"Svalbard And Jan Mayen Islands\",\n            \"iso2\": \"SJ\",\n            \"iso3\": \"SJM\",\n            \"phonecode\": \"47\"\n        },\n        {\n            \"id\": 212,\n            \"name\": \"Swaziland\",\n            \"iso2\": \"SZ\",\n            \"iso3\": \"SWZ\",\n            \"phonecode\": \"268\"\n        },\n        {\n            \"id\": 213,\n            \"name\": \"Sweden\",\n            \"iso2\": \"SE\",\n            \"iso3\": \"SWE\",\n            \"phonecode\": \"46\"\n        },\n        {\n            \"id\": 214,\n            \"name\": \"Switzerland\",\n            \"iso2\": \"CH\",\n            \"iso3\": \"CHE\",\n            \"phonecode\": \"41\"\n        },\n        {\n            \"id\": 215,\n            \"name\": \"Syria\",\n            \"iso2\": \"SY\",\n            \"iso3\": \"SYR\",\n            \"phonecode\": \"963\"\n        },\n        {\n            \"id\": 216,\n            \"name\": \"Taiwan\",\n            \"iso2\": \"TW\",\n            \"iso3\": \"TWN\",\n            \"phonecode\": \"886\"\n        },\n        {\n            \"id\": 217,\n            \"name\": \"Tajikistan\",\n            \"iso2\": \"TJ\",\n            \"iso3\": \"TJK\",\n            \"phonecode\": \"992\"\n        },\n        {\n            \"id\": 218,\n            \"name\": \"Tanzania\",\n            \"iso2\": \"TZ\",\n            \"iso3\": \"TZA\",\n            \"phonecode\": \"255\"\n        },\n        {\n            \"id\": 219,\n            \"name\": \"Thailand\",\n            \"iso2\": \"TH\",\n            \"iso3\": \"THA\",\n            \"phonecode\": \"66\"\n        },\n        {\n            \"id\": 220,\n            \"name\": \"Togo\",\n            \"iso2\": \"TG\",\n            \"iso3\": \"TGO\",\n            \"phonecode\": \"228\"\n        },\n        {\n            \"id\": 221,\n            \"name\": \"Tokelau\",\n            \"iso2\": \"TK\",\n            \"iso3\": \"TKL\",\n            \"phonecode\": \"690\"\n        },\n        {\n            \"id\": 222,\n            \"name\": \"Tonga\",\n            \"iso2\": \"TO\",\n            \"iso3\": \"TON\",\n            \"phonecode\": \"676\"\n        },\n        {\n            \"id\": 223,\n            \"name\": \"Trinidad And Tobago\",\n            \"iso2\": \"TT\",\n            \"iso3\": \"TTO\",\n            \"phonecode\": \"+1-868\"\n        },\n        {\n            \"id\": 224,\n            \"name\": \"Tunisia\",\n            \"iso2\": \"TN\",\n            \"iso3\": \"TUN\",\n            \"phonecode\": \"216\"\n        },\n        {\n            \"id\": 225,\n            \"name\": \"Turkey\",\n            \"iso2\": \"TR\",\n            \"iso3\": \"TUR\",\n            \"phonecode\": \"90\"\n        },\n        {\n            \"id\": 226,\n            \"name\": \"Turkmenistan\",\n            \"iso2\": \"TM\",\n            \"iso3\": \"TKM\",\n            \"phonecode\": \"993\"\n        },\n        {\n            \"id\": 227,\n            \"name\": \"Turks And Caicos Islands\",\n            \"iso2\": \"TC\",\n            \"iso3\": \"TCA\",\n            \"phonecode\": \"+1-649\"\n        },\n        {\n            \"id\": 228,\n            \"name\": \"Tuvalu\",\n            \"iso2\": \"TV\",\n            \"iso3\": \"TUV\",\n            \"phonecode\": \"688\"\n        },\n        {\n            \"id\": 229,\n            \"name\": \"Uganda\",\n            \"iso2\": \"UG\",\n            \"iso3\": \"UGA\",\n            \"phonecode\": \"256\"\n        },\n        {\n            \"id\": 230,\n            \"name\": \"Ukraine\",\n            \"iso2\": \"UA\",\n            \"iso3\": \"UKR\",\n            \"phonecode\": \"380\"\n        },\n        {\n            \"id\": 231,\n            \"name\": \"United Arab Emirates\",\n            \"iso2\": \"AE\",\n            \"iso3\": \"ARE\",\n            \"phonecode\": \"971\"\n        },\n        {\n            \"id\": 232,\n            \"name\": \"United Kingdom\",\n            \"iso2\": \"GB\",\n            \"iso3\": \"GBR\",\n            \"phonecode\": \"44\"\n        },\n        {\n            \"id\": 233,\n            \"name\": \"United States\",\n            \"iso2\": \"US\",\n            \"iso3\": \"USA\",\n            \"phonecode\": \"1\"\n        },\n        {\n            \"id\": 234,\n            \"name\": \"United States Minor Outlying Islands\",\n            \"iso2\": \"UM\",\n            \"iso3\": \"UMI\",\n            \"phonecode\": \"1\"\n        },\n        {\n            \"id\": 235,\n            \"name\": \"Uruguay\",\n            \"iso2\": \"UY\",\n            \"iso3\": \"URY\",\n            \"phonecode\": \"598\"\n        },\n        {\n            \"id\": 236,\n            \"name\": \"Uzbekistan\",\n            \"iso2\": \"UZ\",\n            \"iso3\": \"UZB\",\n            \"phonecode\": \"998\"\n        },\n        {\n            \"id\": 237,\n            \"name\": \"Vanuatu\",\n            \"iso2\": \"VU\",\n            \"iso3\": \"VUT\",\n            \"phonecode\": \"678\"\n        },\n        {\n            \"id\": 238,\n            \"name\": \"Vatican City State (Holy See)\",\n            \"iso2\": \"VA\",\n            \"iso3\": \"VAT\",\n            \"phonecode\": \"379\"\n        },\n        {\n            \"id\": 239,\n            \"name\": \"Venezuela\",\n            \"iso2\": \"VE\",\n            \"iso3\": \"VEN\",\n            \"phonecode\": \"58\"\n        },\n        {\n            \"id\": 240,\n            \"name\": \"Vietnam\",\n            \"iso2\": \"VN\",\n            \"iso3\": \"VNM\",\n            \"phonecode\": \"84\"\n        },\n        {\n            \"id\": 241,\n            \"name\": \"Virgin Islands (British)\",\n            \"iso2\": \"VG\",\n            \"iso3\": \"VGB\",\n            \"phonecode\": \"+1-284\"\n        },\n        {\n            \"id\": 242,\n            \"name\": \"Virgin Islands (US)\",\n            \"iso2\": \"VI\",\n            \"iso3\": \"VIR\",\n            \"phonecode\": \"+1-340\"\n        },\n        {\n            \"id\": 243,\n            \"name\": \"Wallis And Futuna Islands\",\n            \"iso2\": \"WF\",\n            \"iso3\": \"WLF\",\n            \"phonecode\": \"681\"\n        },\n        {\n            \"id\": 244,\n            \"name\": \"Western Sahara\",\n            \"iso2\": \"EH\",\n            \"iso3\": \"ESH\",\n            \"phonecode\": \"212\"\n        },\n        {\n            \"id\": 245,\n            \"name\": \"Yemen\",\n            \"iso2\": \"YE\",\n            \"iso3\": \"YEM\",\n            \"phonecode\": \"967\"\n        },\n        {\n            \"id\": 246,\n            \"name\": \"Zambia\",\n            \"iso2\": \"ZM\",\n            \"iso3\": \"ZMB\",\n            \"phonecode\": \"260\"\n        },\n        {\n            \"id\": 247,\n            \"name\": \"Zimbabwe\",\n            \"iso2\": \"ZW\",\n            \"iso3\": \"ZWE\",\n            \"phonecode\": \"263\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "states",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/states/101",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"states",
+								"101"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/states/101",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"states",
+										"101"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "3447"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"d77-urncpgm1ImTAtFI8MbaslU7bymQ\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 14 Feb 2025 11:36:16 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"data\": [\n        {\n            \"id\": 4023,\n            \"name\": \"Andaman and Nicobar Islands\",\n            \"iso2\": \"AN\",\n            \"latitude\": \"11.74008670\",\n            \"longitude\": \"92.65864010\"\n        },\n        {\n            \"id\": 4017,\n            \"name\": \"Andhra Pradesh\",\n            \"iso2\": \"AP\",\n            \"latitude\": \"15.91289980\",\n            \"longitude\": \"79.73998750\"\n        },\n        {\n            \"id\": 4024,\n            \"name\": \"Arunachal Pradesh\",\n            \"iso2\": \"AR\",\n            \"latitude\": \"28.21799940\",\n            \"longitude\": \"94.72775280\"\n        },\n        {\n            \"id\": 4027,\n            \"name\": \"Assam\",\n            \"iso2\": \"AS\",\n            \"latitude\": \"26.20060430\",\n            \"longitude\": \"92.93757390\"\n        },\n        {\n            \"id\": 4037,\n            \"name\": \"Bihar\",\n            \"iso2\": \"BR\",\n            \"latitude\": \"25.09607420\",\n            \"longitude\": \"85.31311940\"\n        },\n        {\n            \"id\": 4031,\n            \"name\": \"Chandigarh\",\n            \"iso2\": \"CH\",\n            \"latitude\": \"30.73331480\",\n            \"longitude\": \"76.77941790\"\n        },\n        {\n            \"id\": 4040,\n            \"name\": \"Chhattisgarh\",\n            \"iso2\": \"CT\",\n            \"latitude\": \"21.27865670\",\n            \"longitude\": \"81.86614420\"\n        },\n        {\n            \"id\": 4033,\n            \"name\": \"Dadra and Nagar Haveli and Daman and Diu\",\n            \"iso2\": \"DH\",\n            \"latitude\": \"20.39737360\",\n            \"longitude\": \"72.83279910\"\n        },\n        {\n            \"id\": 4021,\n            \"name\": \"Delhi\",\n            \"iso2\": \"DL\",\n            \"latitude\": \"28.70405920\",\n            \"longitude\": \"77.10249020\"\n        },\n        {\n            \"id\": 4009,\n            \"name\": \"Goa\",\n            \"iso2\": \"GA\",\n            \"latitude\": \"15.29932650\",\n            \"longitude\": \"74.12399600\"\n        },\n        {\n            \"id\": 4030,\n            \"name\": \"Gujarat\",\n            \"iso2\": \"GJ\",\n            \"latitude\": \"22.25865200\",\n            \"longitude\": \"71.19238050\"\n        },\n        {\n            \"id\": 4007,\n            \"name\": \"Haryana\",\n            \"iso2\": \"HR\",\n            \"latitude\": \"29.05877570\",\n            \"longitude\": \"76.08560100\"\n        },\n        {\n            \"id\": 4020,\n            \"name\": \"Himachal Pradesh\",\n            \"iso2\": \"HP\",\n            \"latitude\": \"31.10482940\",\n            \"longitude\": \"77.17339010\"\n        },\n        {\n            \"id\": 4029,\n            \"name\": \"Jammu and Kashmir\",\n            \"iso2\": \"JK\",\n            \"latitude\": \"33.27783900\",\n            \"longitude\": \"75.34121790\"\n        },\n        {\n            \"id\": 4025,\n            \"name\": \"Jharkhand\",\n            \"iso2\": \"JH\",\n            \"latitude\": \"23.61018080\",\n            \"longitude\": \"85.27993540\"\n        },\n        {\n            \"id\": 4026,\n            \"name\": \"Karnataka\",\n            \"iso2\": \"KA\",\n            \"latitude\": \"15.31727750\",\n            \"longitude\": \"75.71388840\"\n        },\n        {\n            \"id\": 4028,\n            \"name\": \"Kerala\",\n            \"iso2\": \"KL\",\n            \"latitude\": \"10.85051590\",\n            \"longitude\": \"76.27108330\"\n        },\n        {\n            \"id\": 4852,\n            \"name\": \"Ladakh\",\n            \"iso2\": \"LA\",\n            \"latitude\": \"34.22684750\",\n            \"longitude\": \"77.56194190\"\n        },\n        {\n            \"id\": 4019,\n            \"name\": \"Lakshadweep\",\n            \"iso2\": \"LD\",\n            \"latitude\": \"10.32802650\",\n            \"longitude\": \"72.78463360\"\n        },\n        {\n            \"id\": 4039,\n            \"name\": \"Madhya Pradesh\",\n            \"iso2\": \"MP\",\n            \"latitude\": \"22.97342290\",\n            \"longitude\": \"78.65689420\"\n        },\n        {\n            \"id\": 4008,\n            \"name\": \"Maharashtra\",\n            \"iso2\": \"MH\",\n            \"latitude\": \"19.75147980\",\n            \"longitude\": \"75.71388840\"\n        },\n        {\n            \"id\": 4010,\n            \"name\": \"Manipur\",\n            \"iso2\": \"MN\",\n            \"latitude\": \"24.66371730\",\n            \"longitude\": \"93.90626880\"\n        },\n        {\n            \"id\": 4006,\n            \"name\": \"Meghalaya\",\n            \"iso2\": \"ML\",\n            \"latitude\": \"25.46703080\",\n            \"longitude\": \"91.36621600\"\n        },\n        {\n            \"id\": 4036,\n            \"name\": \"Mizoram\",\n            \"iso2\": \"MZ\",\n            \"latitude\": \"23.16454300\",\n            \"longitude\": \"92.93757390\"\n        },\n        {\n            \"id\": 4018,\n            \"name\": \"Nagaland\",\n            \"iso2\": \"NL\",\n            \"latitude\": \"26.15843540\",\n            \"longitude\": \"94.56244260\"\n        },\n        {\n            \"id\": 4013,\n            \"name\": \"Odisha\",\n            \"iso2\": \"OR\",\n            \"latitude\": \"20.95166580\",\n            \"longitude\": \"85.09852360\"\n        },\n        {\n            \"id\": 4011,\n            \"name\": \"Puducherry\",\n            \"iso2\": \"PY\",\n            \"latitude\": \"11.94159150\",\n            \"longitude\": \"79.80831330\"\n        },\n        {\n            \"id\": 4015,\n            \"name\": \"Punjab\",\n            \"iso2\": \"PB\",\n            \"latitude\": null,\n            \"longitude\": null\n        },\n        {\n            \"id\": 4014,\n            \"name\": \"Rajasthan\",\n            \"iso2\": \"RJ\",\n            \"latitude\": \"27.02380360\",\n            \"longitude\": \"74.21793260\"\n        },\n        {\n            \"id\": 4034,\n            \"name\": \"Sikkim\",\n            \"iso2\": \"SK\",\n            \"latitude\": \"27.53297180\",\n            \"longitude\": \"88.51221780\"\n        },\n        {\n            \"id\": 4035,\n            \"name\": \"Tamil Nadu\",\n            \"iso2\": \"TN\",\n            \"latitude\": \"11.12712250\",\n            \"longitude\": \"78.65689420\"\n        },\n        {\n            \"id\": 4012,\n            \"name\": \"Telangana\",\n            \"iso2\": \"TG\",\n            \"latitude\": \"18.11243720\",\n            \"longitude\": \"79.01929970\"\n        },\n        {\n            \"id\": 4038,\n            \"name\": \"Tripura\",\n            \"iso2\": \"TR\",\n            \"latitude\": \"23.94084820\",\n            \"longitude\": \"91.98815270\"\n        },\n        {\n            \"id\": 4022,\n            \"name\": \"Uttar Pradesh\",\n            \"iso2\": \"UP\",\n            \"latitude\": \"26.84670880\",\n            \"longitude\": \"80.94615920\"\n        },\n        {\n            \"id\": 4016,\n            \"name\": \"Uttarakhand\",\n            \"iso2\": \"UT\",\n            \"latitude\": \"30.06675300\",\n            \"longitude\": \"79.01929970\"\n        },\n        {\n            \"id\": 4853,\n            \"name\": \"West Bengal\",\n            \"iso2\": \"WB\",\n            \"latitude\": \"22.98675690\",\n            \"longitude\": \"87.85497550\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "cities",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/cities/4030",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"cities",
+								"4030"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "SDR",
+			"item": [
+				{
+					"name": "Get SDR data",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/sdr?searchType=mobile_number&searchValue=9998989336&page=1&limit=10",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"sdr"
+							],
+							"query": [
+								{
+									"key": "searchType",
+									"value": "mobile_number"
+								},
+								{
+									"key": "searchValue",
+									"value": "9998989336"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get SDR data",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/sdr?searchType=mobile_number&searchValue=9998989336&page=1&limit=10",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"sdr"
+									],
+									"query": [
+										{
+											"key": "searchType",
+											"value": "mobile_number"
+										},
+										{
+											"key": "searchValue",
+											"value": "9998989336"
+										},
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sat, 22 Feb 2025 05:45:31 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"6a4-ycutXF/+deNE/77j5q6xg+WDZsc\""
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "GET, POST, OPTIONS, DELETE, PUT"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,Authorization"
+								},
+								{
+									"key": "Access-Control-Expose-Headers",
+									"value": "Content-Length,Content-Range"
+								},
+								{
+									"key": "cf-cache-status",
+									"value": "DYNAMIC"
+								},
+								{
+									"key": "Report-To",
+									"value": "{\"endpoints\":[{\"url\":\"https:\\/\\/a.nel.cloudflare.com\\/report\\/v4?s=toTwwb1cDhZKVaqplXTUTQuw%2FtvJsnGvVrYBIVv5JBqOFxFfWSD6BrDjgf0fHv9gsby7HaI5TjiTdid4IEE3Nr5gdjexf0fe%2FubEH1Mhk6j8JwpISv9brkmuoUc%2B6WI%3D\"}],\"group\":\"cf-nel\",\"max_age\":604800}"
+								},
+								{
+									"key": "NEL",
+									"value": "{\"success_fraction\":0,\"report_to\":\"cf-nel\",\"max_age\":604800}"
+								},
+								{
+									"key": "Server",
+									"value": "cloudflare"
+								},
+								{
+									"key": "CF-RAY",
+									"value": "915caba549586488-MRS"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "br"
+								},
+								{
+									"key": "alt-svc",
+									"value": "h3=\":443\"; ma=86400"
+								},
+								{
+									"key": "server-timing",
+									"value": "cfL4;desc=\"?proto=TCP&rtt=163079&min_rtt=162226&rtt_var=61444&sent=4&recv=5&lost=0&retrans=0&sent_bytes=2811&recv_bytes=799&delivery_rate=17999&cwnd=111&unsent_bytes=0&cid=0678f83066b0ae8d&ts=409&x=0\""
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"totalRecords\": 1,\n    \"totalPages\": 1,\n    \"currentPage\": 1,\n    \"data\": [\n        {\n            \"id\": 99994,\n            \"mobile_number\": 9998989336,\n            \"user_name\": \"DIPAKBHAI PATEL\",\n            \"father_husband_name\": \"LALLUBHAI PATEL\",\n            \"full_name\": \"DIPAKBHAI PATEL LALLUBHAI PATEL\",\n            \"dob\": \"1962-06-01\",\n            \"gender\": \"MALE\",\n            \"nationality\": \"INDIAN\",\n            \"profession\": \"SELF EMPLOYED\",\n            \"alt_mobile\": 7567789457,\n            \"email_id\": null,\n            \"loc_addr\": \"C/O: DIPAKBHAI LALLUBHAI PATEL!121KANBIWAD!121 AMADHRA!121 AMADHRA!KANBIWAD AMADHARA CHIKHLI AMADHARA NAVSARI!BILLIMORA!NAVSARI!GUJARAT!396521\",\n            \"loc_addr_pin\": 396521,\n            \"perm_addr\": \"C/O: DIPAKBHAI LALLUBHAI PATEL!121KANBIWAD!121 AMADHRA!121 AMADHRA!KANBIWAD AMADHARA CHIKHLI AMADHARA NAVSARI!BILLIMORA!NAVSARI!GUJARAT!396521\",\n            \"perm_addr_pin\": 396521,\n            \"aadhar_idx\": \"XXXX-XXXX-8782\",\n            \"aadhar_id\": 351322548782,\n            \"pan_no\": null,\n            \"id_proof_type\": \"UID Card Aadhaar Card\",\n            \"id_proof_number\": \"351322548782\",\n            \"addr_proof_type\": \"UID Card Aadhaar Card\",\n            \"addr_proof_number\": \"351322548782\",\n            \"imsi\": \"404051745199713\",\n            \"conn_type\": \"PREPAID\",\n            \"subscriber_status\": \"ACTIVATED\",\n            \"service_provider\": \"Vodafone Idea\",\n            \"circle\": \"GUJARAT\",\n            \"prev_service_provider\": \"Bharti Airtel Limited\",\n            \"prev_circle\": \"GUJ\",\n            \"caf_no\": \"GPS893367821653\",\n            \"sim_act_date\": \"2020-07-30\",\n            \"sim_act_time\": \"12:31:05\",\n            \"pos_code\": \"55231990\",\n            \"pos_name\": \"VODAFONE MINI STORE\",\n            \"pos_agent\": \"KIRAN BHAI DANDARIYA\",\n            \"pos_addr\": \"VI MINI STORE!SHOP NO AFF3, VIJAY NAGAR SHOPPING CENTER, NEAR BUS DEPO, CHIKHLI!NEAR BUS DEPO!CHIKHLI!CHIKHLI!NAVSARI!GUJARAT!396521\",\n            \"pos_addr_pin\": 396521,\n            \"pos_agent_aadhar\": null,\n            \"pos_sign_mobile\": 8469946190,\n            \"lr_name\": null,\n            \"lr_addr\": null,\n            \"lr_mobile\": null,\n            \"cust_sign_mobile\": 7567789457,\n            \"csm_typ\": \"Self\",\n            \"photo_id_lat_long\": \"20.760475,73.057882\",\n            \"ao_details\": \"NEHA ARYA\",\n            \"last_updated\": \"2025-01-01\"\n        }\n    ]\n}"
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:5000/api/v1",
+			"type": "string"
+		},
+		{
+			"key": "Authorization",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTQsInJvbGUiOjEsImlhdCI6MTc0MDE5Njc2Nn0.pUKfD3Bf5xpK75_w7bnO8LdkcpzrR_HCR0pz_Uwu8xc",
+			"type": "string"
+		},
+		{
+			"key": "base_url",
+			"value": "https://techpeat.com/nodejs-backend/api/v1/",
+			"type": "string",
+			"disabled": true
+		},
+		{
+			"key": "token",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTQsInJvbGUiOjEsImlhdCI6MTc0MDE5Njc2Nn0.pUKfD3Bf5xpK75_w7bnO8LdkcpzrR_HCR0pz_Uwu8xc",
+			"type": "string"
+		}
+	]
+}

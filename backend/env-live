@@ -1,0 +1,6 @@
+DB_NAME=my_forenzy_system
+DB_USER=my_forenzy_system
+DB_PASSWORD=HLKrUpmT9aqKpofCx)khpL%5
+DB_HOST=localhost
+DB_PORT=3306
+JWT_SECRET=qLgYElfIscnEULZRz5e00sSKgYlIjX8wc1HA9x/uFHVb45Tt8Rs8Ee8OppP4ds1EzL9Z+HM37wH1Gi/YYUD/QA==
